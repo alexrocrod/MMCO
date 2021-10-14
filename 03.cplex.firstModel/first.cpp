@@ -42,12 +42,12 @@ int main (int argc, char const *argv[])
 	//  => we assume that variables are SORTED as ** x1, x2, y1, y2, z, w **
 	int ccnt = 6;
 	double objCost[6] = {	2.0, 3.0, 0.0, 0.0, 0.0, 1.0 };
-	  // cost in the objective function;
+	  // cost in the objective function;  --> 2*x1 + 3*x2 + w 
     double lb[6]      = {	0.0       , 0.0         , -CPX_INFBOUND,   -CPX_INFBOUND, 0.0, 0.0          };
     double ub[6]      = { CPX_INFBOUND, CPX_INFBOUND,	0.0          , CPX_INFBOUND , 1.0, CPX_INFBOUND };
       // variable lower and upper bounds
     char xtype[6]     = { 'C' , 'C' , 'C' , 'C' , 'B' , 'I' };
-      // variable types 'C' or 'B' or 'I' ...
+      // variable types 'C' or 'B' or 'I' ...  --> continuos, binary, integer
     char ** xname = NULL; 
       // no names
     CHECKED_CPX_CALL( CPXnewcols, env, lp, ccnt, &objCost[0], &lb[0], &ub[0], &xtype[0], xname );
