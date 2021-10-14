@@ -1,0 +1,22 @@
+Iron Rods:
+Objval: 90265
+var in position 0 : 3000
+var in position 1 : 0
+var in position 2 : 4000
+var in position 3 : 1000
+var in position 4 : 5000
+var in position 5 : 0
+var in position 6 : 4000
+var in position 7 : 0
+var in position 8 : 0
+var in position 9 : 1
+var in position 10 : 0
+var in position 11 : 1
+var in position 12 : 1
+var in position 13 : 1
+var in position 14 : 0
+var in position 15 : 1
+var in position 16 : 0
+var in position 17 : 0
+var in position 18 : 1
+
