@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?><project>
+	<version>1.0</version>
+	<description>Facility location with fixed costs</description>
+	<configs>
+		<config default="true" name="Configuration1" category="opl">
+			<ref name="LocationWithFixedCost_plus.mod" type="model">
+			</ref>
+			<ref name="gdo_plus.dat" type="data">
+			</ref>
+			<ref name="timelimit.ops" type="setting">
+			</ref>
+		</config>
+	</configs>
+	
+</project>

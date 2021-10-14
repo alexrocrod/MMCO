@@ -1,0 +1,278 @@
+!SESSION 2021-10-07 15:22:11.736 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-07 15:22:11.736
+!MESSAGE Run Configuration1 in /server0/0/2021/alexrodr/opl/live
+!SESSION 2021-10-07 15:23:27.818 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-07 15:23:27.819
+!MESSAGE Run Configuration1 in /server0/0/2021/alexrodr/opl/live
+!SESSION 2021-10-07 15:25:24.235 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-07 15:25:24.236
+!MESSAGE Run Configuration1 in /server0/0/2021/alexrodr/opl/live
+!SESSION 2021-10-07 15:25:30.293 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-07 15:25:30.294
+!MESSAGE Run Configuration1 in /server0/0/2021/alexrodr/opl/live
+
+!ENTRY ilog.odms.ide.opllang.remote 4 0 2021-10-07 15:25:30.385
+!MESSAGE No solution available, cannot process.
+!STACK 0
+ilog.concert.IloException: No solution available, cannot process.
+	at ilog.opl.opl_lang_wrapJNI.IloOplModel_postProcess(Native Method)
+	at ilog.opl.IloOplModel.postProcess(IloOplModel.java:675)
+	at ilog.odms.ide.opllang.run.IloAbstractRunShell.postProcess(IloAbstractRunShell.java:1948)
+	at ilog.odms.ide.opllang.run.IloAbstractRunShell.sendSolution(IloAbstractRunShell.java:1808)
+	at ilog.odms.ide.opllang.run.IloAbstractRunShell.processSolution(IloAbstractRunShell.java:1862)
+	at ilog.odms.ide.opllang.remote.IloOplRunConfigRunner.doProcessModel(IloOplRunConfigRunner.java:165)
+	at ilog.odms.ide.opllang.remote.IloOplRunConfigRunner.doRun(IloOplRunConfigRunner.java:377)
+	at ilog.odms.ide.opllang.run.IloAbstractRunShell$2.run(IloAbstractRunShell.java:1587)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+!SESSION 2021-10-07 15:26:01.716 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-07 15:26:01.717
+!MESSAGE Run Configuration1 in /server0/0/2021/alexrodr/opl/live
+!SESSION 2021-10-07 15:33:14.603 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-07 15:33:14.603
+!MESSAGE Run Configuration1 in /server0/0/2021/alexrodr/opl/live
+!SESSION 2021-10-07 15:33:25.623 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-07 15:33:25.624
+!MESSAGE Run diet_conf in /server0/0/2021/alexrodr/opl/live
+!SESSION 2021-10-07 15:39:08.097 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-07 15:39:08.098
+!MESSAGE Run Configuration1 in /server0/0/2021/alexrodr/opl/live
+!SESSION 2021-10-07 16:11:48.660 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-07 16:11:48.661
+!MESSAGE Run Configuration1 in /server0/0/2021/alexrodr/opl/live
+!SESSION 2021-10-14 14:39:12.066 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-14 14:39:12.067
+!MESSAGE Run 4.mix_general_separated in /server0/0/2021/alexrodr/Desktop/02.OPL.models/LearningByExamples
+!SESSION 2021-10-14 14:39:24.328 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-14 14:39:24.329
+!MESSAGE Run Configuration1 in /server0/0/2021/alexrodr/opl/live
+!SESSION 2021-10-14 14:39:48.494 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-14 14:39:48.495
+!MESSAGE Run Configuration1 in /server0/0/2021/alexrodr/opl/live
+!SESSION 2021-10-14 14:44:23.990 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-14 14:44:23.991
+!MESSAGE Run Configuration1 in /server0/0/2021/alexrodr/opl/live
+!SESSION 2021-10-14 14:44:44.177 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-14 14:44:44.178
+!MESSAGE Run Configuration1 in /server0/0/2021/alexrodr/opl/live
+!SESSION 2021-10-14 14:45:21.317 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-14 14:45:21.317
+!MESSAGE Run Configuration1 in /server0/0/2021/alexrodr/opl/live
+!SESSION 2021-10-14 14:59:24.840 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-14 14:59:24.841
+!MESSAGE Run Configuration1 in /server0/0/2021/alexrodr/Desktop/02.OPL.models/transport
+!SESSION 2021-10-14 15:02:50.541 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-14 15:02:50.542
+!MESSAGE Run Configuration1 in /server0/0/2021/alexrodr/Desktop/02.OPL.models/transport
+!SESSION 2021-10-14 15:15:15.509 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-14 15:15:15.510
+!MESSAGE Run Configuration1 in /server0/0/2021/alexrodr/Desktop/02.OPL.models/transport
+!SESSION 2021-10-14 15:17:10.592 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-14 15:17:10.593
+!MESSAGE Run Configuration1 in /server0/0/2021/alexrodr/Desktop/02.OPL.models/LocationWithFixedCost
+!SESSION 2021-10-14 15:26:01.455 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-14 15:26:01.456
+!MESSAGE Run Configuration1 in /server0/0/2021/alexrodr/Desktop/02.OPL.models/LocationWithFixedCost
+!SESSION 2021-10-14 15:31:13.796 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-14 15:31:13.797
+!MESSAGE Run Configuration1 in /server0/0/2021/alexrodr/Desktop/02.OPL.models/LocationWithFixedCost
+!SESSION 2021-10-14 15:34:55.725 -----------------------------------------------
+eclipse.buildId=unknown
+java.fullversion=8.0.5.0 - pxa6480sr5-20170905_01(SR5)
+JRE 1.8.0 IBM J9 2.9 Linux amd64-64 Compressed References 20170901_363591 (JIT enabled, AOT enabled)
+J9VM - d56eb84
+JIT  - tr.open_20170901_140853_d56eb84
+OMR  - b033a01
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -clean -nl en_US -configuration /server0/0/2021/alexrodr/Desktop/OPL_IDE_Workspace/.metadata/workspace_oplrun
+
+!ENTRY ilog.odms.ide.opllang.remote 1 0 2021-10-14 15:34:55.726
+!MESSAGE Run Configuration1 in /server0/0/2021/alexrodr/Desktop/02.OPL.models/LocationWithFixedCost

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ASCII"?><project>
+	<version>1.0</version>
+	<description>basic transportation model</description>
+	<configs>
+		<config default="true" name="Configuration1" category="opl">
+			<ref name="refrigerators.dat" type="data">
+			</ref>
+			<ref name="transport.mod" type="model">
+			</ref>
+		</config>
+	</configs>
+	
+</project>

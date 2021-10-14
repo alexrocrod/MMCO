@@ -1,0 +1,22 @@
+/*********************************************
+ * OPL Model
+ * Transportation problem with additional constraints (mininum quantity on low cost links)
+ * REDONE BY ALEXRODR
+ *********************************************/
+
+int Ndest = ...;
+setof(string) I = ...;		// origins
+setof(int) J = asSet(1..Ndest);			// destinations
+
+int 	O[I] = ...; 		// capacity of origin i in I
+int 	D[J] = ...; 		// request of destintion j in J
+float	C[I][J] = ...;		// unit transportation cost
+
+dvar int+ x[I][J]
+
+
+
+
+
+ 
+ 

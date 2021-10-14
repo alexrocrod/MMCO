@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ASCII"?><project>
+	<version>1.0</version>
+	<description>Examples to learn basic OPL</description>
+	<configs>
+		<config default="true" name="2.diet_food" category="opl">
+			<ref name="2.food.mod" type="model">
+			</ref>
+		</config>
+		<config default="false" name="5.cover_general" category="opl">
+			<ref name="5.cover.mod" type="model">
+			</ref>
+			<ref name="5.cover.food.dat" type="data">
+			</ref>
+		</config>
+		<config default="false" name="1.mix_perfumes" category="opl">
+			<ref name="1.perfumes.mod" type="model">
+			</ref>
+		</config>
+		<config default="false" name="3.mix_general_model" category="opl">
+			<ref name="3.mix_general.mod" type="model">
+			</ref>
+		</config>
+		<config default="false" name="4.mix_general_separated" category="opl">
+			<ref name="4.mix_general_dataout.mod" type="model">
+			</ref>
+			<ref name="wines.dat" type="data">
+			</ref>
+		</config>
+	</configs>
+	
+</project>
