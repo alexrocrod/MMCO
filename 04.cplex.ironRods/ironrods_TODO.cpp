@@ -49,7 +49,20 @@ void setupLP(CEnv env, Prob lp)
 		}
 	}
 	// add y vars [in o.f.: ... + F sum{ij} y_ij + ... ]
-	//TODO...
+	//DONE...
+	for (int i = 0; i < I; i++)
+	{
+		for (int j = 0; j < J; j++)
+		{
+			char xtype = 'I';
+			double lb = 0.0;
+			double ub = 1.0;
+			snprintf(name, NAME_SIZE, "x_%c_%c", nameI[i], nameJ[j]);
+			char* xname = (char*)(&name[0]);
+			CHECKED_CPX_CALL( CPXnewcols, env, lp, 1   , &F, &lb, &ub, &xtype, &xname );
+			/// status =      CPXnewcols (env, lp, ccnt, obj      , lb  , ub, xctype, colname);
+		}
+	}
 
 	// add z var [in o.f.: ... + (L-F) z ]
 	//TODO...
