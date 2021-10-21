@@ -49,25 +49,35 @@ void setupLP(CEnv env, Prob lp)
 		}
 	}
 	// add y vars [in o.f.: ... + F sum{ij} y_ij + ... ]
-	//DONE...
 	for (int i = 0; i < I; i++)
 	{
 		for (int j = 0; j < J; j++)
 		{
-			char xtype = 'I';
+			char xtype = 'B';
 			double lb = 0.0;
 			double ub = 1.0;
-			snprintf(name, NAME_SIZE, "x_%c_%c", nameI[i], nameJ[j]);
+			snprintf(name, NAME_SIZE, "y_%c_%c", nameI[i], nameJ[j]);
 			char* xname = (char*)(&name[0]);
 			CHECKED_CPX_CALL( CPXnewcols, env, lp, 1   , &F, &lb, &ub, &xtype, &xname );
 			/// status =      CPXnewcols (env, lp, ccnt, obj      , lb  , ub, xctype, colname);
 		}
 	}
+	//DONE...
 
 	// add z var [in o.f.: ... + (L-F) z ]
-	//TODO...
+		{
+			char xtype = 'B';
+			double lb = 0.0;
+			double ub = 1.0;
+			double obj = L - F;
+			snprintf(name, NAME_SIZE, "z");
+			char* xname = (char*)(&name[0]);
+			CHECKED_CPX_CALL( CPXnewcols, env, lp, 1   , &obj, &lb, &ub, &xtype, &xname );
+			/// status =      CPXnewcols (env, lp, ccnt, obj      , lb  , ub, xctype, colname);
+		}
+	//DONE...
 
-        ///////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////
         //
         // now variables are stored in the following order
         //  x00 x01 ...   x10 x11 ... #xij #    ... ...   y00   y01   ...   y10   y11     ... #yij      #   ... ...   #z    #
@@ -88,11 +98,24 @@ void setupLP(CEnv env, Prob lp)
 		}
 		int matbeg = 0;
 		CHECKED_CPX_CALL( CPXaddrows, env, lp, 0     , 1     , idx.size(), &R[j], &sense, &matbeg, &idx[0], &coef[0], NULL      , NULL      );
-    	/// status =      CPXaddrows (        env, lp, colcnt, rowcnt, nzcnt     , rhs  , sense , rmatbeg, rmatind, rmatval , newcolname, newrowname);
+    	/// status =      CPXaddrows (env, lp, colcnt, rowcnt, nzcnt     , rhs  , sense , rmatbeg, rmatind, rmatval , newcolname, newrowname);
 	}
 
 	// add capacity constraints (origin) [ forall i, sum{j} x_ij <= D_j ]
-	//TODO...
+	for (int i = 0; i < I; i++)
+	{
+		std::vector<int> idx(J);
+		std::vector<double> coef(J, 1.0);
+		char sense = 'L';
+		for (int j = 0; j < J; j++)
+		{
+			idx[j] = i*J + j; // corresponds to variable x_ij
+		}
+		int matbeg = 0;
+		CHECKED_CPX_CALL( CPXaddrows, env, lp, 0     , 1     , idx.size(), &D[i], &sense, &matbeg, &idx[0], &coef[0], NULL      , NULL      );
+    	/// status =      CPXaddrows (env, lp, colcnt, rowcnt, nzcnt     , rhs  , sense , rmatbeg, rmatind, rmatval , newcolname, newrowname);
+	}
+	//DONE...
 
 	// add linking constraints (x_ij - K y_ij <= 0 -- all variables on the left side!!!)
 	// version 1
@@ -151,15 +174,15 @@ int main (int argc, char const *argv[])
 	try
 	{
 		// init
-		DECL_ENV( env );
-		DECL_PROB( env, lp );
+		DECL_ENV(env);
+		DECL_PROB(env, lp);
 		// setup LP
 		setupLP(env, lp);
 		// optimize
-		CHECKED_CPX_CALL( CPXmipopt, env, lp );
+		CHECKED_CPX_CALL(CPXmipopt, env, lp );
 		// print
 		double objval;
-		CHECKED_CPX_CALL( CPXgetobjval, env, lp, &objval );
+		CHECKED_CPX_CALL(CPXgetobjval, env, lp, &objval );
 		std::cout << "Objval: " << objval << std::endl;
 		int n = CPXgetnumcols(env, lp);
 		if (n != 2*I*J+1) { throw std::runtime_error(std::string(__FILE__) + ":" + STRINGIZE(__LINE__) + ": " + "different number of variables"); }
