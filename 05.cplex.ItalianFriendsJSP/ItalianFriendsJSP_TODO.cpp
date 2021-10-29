@@ -71,9 +71,15 @@ void setupLP(CEnv env, Prob lp, int & numVars )
 		{
 			for (int j = 0; j < I; j++)
 			{
-				// TODO...
-				
-			}
+				if (i == j) continue; 
+				char xtype = 'B';
+				double obj = 0.0;
+				double lb = 0.0;
+				double ub = 1.0;
+				snprintf(name, NAME_SIZE, "x_%c_%c_%c", nameI[i], nameI[j], nameK[k]);
+				char* xname = (char*)(&name[0]);
+				CHECKED_CPX_CALL( CPXnewcols, env, lp, 1, &obj, &lb, &ub, &xtype, &xname );
+			} // DONE
 		}
 	}
 	// add y var
@@ -104,16 +110,32 @@ void setupLP(CEnv env, Prob lp, int & numVars )
 	}
 	
 	// add wake-up constraints [ h_{i S[i,0]} >= R_i ]
-	//TODO...
-	
+	for (int i = 0; i < I; i++)
+	{
+		int idx = h_init + i*K + S[i*K]; // sigma(i,1)
+		double coef = 1.0;
+		char sense = 'G';
+		int matbeg = 0;
+		CHECKED_CPX_CALL( CPXaddrows, env, lp, 0, 1, 1, &R[i], &sense, &matbeg, &idx, &coef, 0, 0 );
+	}
+	// DONE
+
 	// add non-overlapping constraints between consecutive newspapers [ h_{i S[i,l]} >= h_{i S[i,l-1]} + D_{i S[i,l-1]} ] 
+	// [ h_{i S[i,l]} - h_{i S[i,l-1]} >= D_{i S[i,l-1]} ] 
 	for (int i = 0; i < I; i++)
 	{
 		for (int l = 1; l < K; l++)
 		{
-			//TODO...
-			
-		}
+		std::vector<int> idx(2);
+		idx[0] = h_init + i*K + S[i*K + l];  // sigma(i,l)
+		idx[1] = h_init + i*K + S[i*K + l-1]; // sigma(i,l-1)
+		std::vector<double> coef(2);
+		coef[0] = 1.0;
+		coef[1] = -1.0;
+		char sense = 'G';
+		int matbeg = 0;
+		CHECKED_CPX_CALL( CPXaddrows, env, lp, 0, 1, idx.size(), &D[i*K + S[i*K + l-1]], &sense, &matbeg, &idx[0], &coef[0], 0, 0 );
+		}//DONE
 	}
 	
 	// add non-overlapping constraints between people on the same newspaper 
@@ -124,9 +146,13 @@ void setupLP(CEnv env, Prob lp, int & numVars )
 		{
 			for (int j = 0; j < I; j++)
 			{
+				// x_init + k*I*I + i*I + k -> x[i,j,k]    NOT CORRECT, WE HAVE HOLES!
+				//
+
 				if ( i==j ) continue;
 				
 				// 1 [ h_{i k} >= h_{j k]} + D_{j k]} - M x_ijk ]
+				// 1 [ h_{i k} - h_{j k]} + M x_ijk >= D_{j k]} ]
 				std::vector<int> idx(3);
 				idx[0] = h_init + i*K + k;
 				idx[1] = h_init + j*K + k;
@@ -140,7 +166,20 @@ void setupLP(CEnv env, Prob lp, int & numVars )
 				CHECKED_CPX_CALL( CPXaddrows, env, lp, 0, 1, idx.size(), &D[j*K + k], &sense, &matbeg, &idx[0], &coef[0], 0, 0 );
 				
 				// 2 [ h_{j k} >= h_{i k]} + D_{i k]} - M (1 -x_ijk) ]
-				//TODO...
+				// 2 [ h_{j k} - h_{i k]} -	M x_ijk >= D_{i k]} - M ]
+				// std::vector<int> idx(3);
+				idx[0] = h_init + j*K + k;
+				idx[1] = h_init + i*K + k;
+				idx[2] = xIdx;
+				// std::vector<double> coef(3);
+				coef[0] = 1.0;
+				coef[1] = -1.0;
+				coef[2] = -M;
+				double rhs = D[i*K + k] - M:
+				sense = 'G';
+				matbeg = 0;
+				CHECKED_CPX_CALL( CPXaddrows, env, lp, 0, 1, idx.size(), &rhs, &sense, &matbeg, &idx[0], &coef[0], 0, 0 );
+				//DONE
 				
 				
 				xIdx++; // we have as many constraints as many x variables
