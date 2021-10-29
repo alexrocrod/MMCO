@@ -35,6 +35,8 @@ double M; //TO BE INITIALIZED!!!
 			
 const int NAME_SIZE = 512;
 char name[NAME_SIZE];
+
+vector<vector<vector<int>>> map_x;
 	
 void setupLP(CEnv env, Prob lp, int & numVars )
 {
@@ -63,8 +65,20 @@ void setupLP(CEnv env, Prob lp, int & numVars )
 		}
 	}
 
+	map_x.resize(I);
+	for (int i = 0; i < I; i++) {
+		map_x[i].resize(I);
+		for (int j = 0; j < I; j++){
+			map_x[i][j].resize(K);
+			for (int k = 0; k < K; k++){
+				map_x[i][j][k]=-1;
+			}
+		}
+	}
+
 	// add x vars
 	const int x_init = CPXgetnumcols(env, lp); // first index for x vars
+	int current_var_pos = x_init;
 	for (int k = 0; k < K; k++)
 	{
 		for (int i = 0; i < I; i++)
@@ -79,6 +93,8 @@ void setupLP(CEnv env, Prob lp, int & numVars )
 				snprintf(name, NAME_SIZE, "x_%c_%c_%c", nameI[i], nameI[j], nameK[k]);
 				char* xname = (char*)(&name[0]);
 				CHECKED_CPX_CALL( CPXnewcols, env, lp, 1, &obj, &lb, &ub, &xtype, &xname );
+				map_x[i][j][k] = current_var_pos;
+				current_var_pos++;
 			} // DONE
 		}
 	}
@@ -139,7 +155,7 @@ void setupLP(CEnv env, Prob lp, int & numVars )
 	}
 	
 	// add non-overlapping constraints between people on the same newspaper 
-	int xIdx = x_init;
+	//int xIdx = x_init;
 	for (int k = 0; k < K; k++)
 	{
 		for (int i = 0; i < I; i++)
@@ -156,7 +172,7 @@ void setupLP(CEnv env, Prob lp, int & numVars )
 				std::vector<int> idx(3);
 				idx[0] = h_init + i*K + k;
 				idx[1] = h_init + j*K + k;
-				idx[2] = xIdx;
+				idx[2] = map_x[i][j][k];
 				std::vector<double> coef(3);
 				coef[0] = 1.0;
 				coef[1] = -1.0;
@@ -170,7 +186,7 @@ void setupLP(CEnv env, Prob lp, int & numVars )
 				// std::vector<int> idx(3);
 				idx[0] = h_init + j*K + k;
 				idx[1] = h_init + i*K + k;
-				idx[2] = xIdx;
+				idx[2] = map_x[i][j][k]; //xIdx
 				// std::vector<double> coef(3);
 				coef[0] = 1.0;
 				coef[1] = -1.0;
@@ -182,7 +198,7 @@ void setupLP(CEnv env, Prob lp, int & numVars )
 				//DONE
 				
 				
-				xIdx++; // we have as many constraints as many x variables
+				//xIdx++; // we have as many constraints as many x variables
 					// and the nested loops for constraints adding 
 					// follow the same order as the one for x variable adding
 			}
@@ -195,7 +211,38 @@ void setupLP(CEnv env, Prob lp, int & numVars )
 
 int main (int argc, char const *argv[])
 {
-	//TODO...
-	
+	try
+	{
+		// init
+		DECL_ENV(env);
+		DECL_PROB(env, lp);
+		// setup LP
+		setupLP(env, lp);
+		// optimize
+		CHECKED_CPX_CALL(CPXmipopt, env, lp );
+		// print
+		double objval;
+		CHECKED_CPX_CALL(CPXgetobjval, env, lp, &objval );
+		std::cout << "Objval: " << objval << std::endl;
+		int n = CPXgetnumcols(env, lp);
+		if (n != 2*I*J+1) { throw std::runtime_error(std::string(__FILE__) + ":" + STRINGIZE(__LINE__) + ": " + "different number of variables"); }
+	  	std::vector<double> varVals;
+		varVals.resize(n);
+  		CHECKED_CPX_CALL( CPXgetx, env, lp, &varVals[0], 0, n - 1 );
+		/// status =      CPXgetx (env, lp, x          , 0, CPXgetnumcols(env, lp)-1);
+  		for ( int i = 0 ; i < n ; ++i ) {
+  	  	std::cout << "var in position " << i << " : " << varVals[i] << std::endl;
+  	  		/// to read variables names the API function ``CPXgetcolname'' may be used (it is rather tricky, see the API manual if you like...)
+  	  		/// status = CPXgetcolname (env, lp, cur_colname, cur_colnamestore, cur_storespace, &surplus, 0, cur_numcols-1);
+  		}
+		CHECKED_CPX_CALL( CPXsolwrite, env, lp, "ironrods.sol" );
+		// free
+		CPXfreeprob(env, &lp);
+		CPXcloseCPLEX(&env);
+	}
+	catch(std::exception& e)
+	{
+		std::cout << ">>>EXCEPTION: " << e.what() << std::endl;
+	}
 	return 0;
 }
