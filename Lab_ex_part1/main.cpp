@@ -18,17 +18,17 @@ char errmsg[BUF_SIZE];
 const int N = 10;
 const int I = 10;
 const int J = 10;
-const char nameI[I] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'}; // origins
-const char nameJ[J] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'}; // destinations
-const double C[I*J] =   0.0,   6.0,  4.0,   7.2, 11.2, 11.0, 11.2, 11.7, 12.5, 14.2  
-						6.0,   0.0,  7.2,   4.0, 13.6, 13.0, 11.7, 11.2, 11.0, 11.2
-						4.0,   7.2,  0.0,   6.0,  7.3,  7.0,  7.3,  8.1,  7.3,  9.2
-						7.2,   4.0,  6.0,   0.0, 10.6,  9.9,  8.6,  7.6,  7.1,  7.3
-						11.2, 13.6,  7.3,  10.6,  0.0,  2.0,  4.0,  6.0,  8.0, 11.0
-						11.0, 13.0,  7.0,   9.9,  2.0,  0.0,  2.0,  4.0,  6.0,  9.0
-						11.2, 11.7,  7.3,   8.6,  4.0,  2.0,  0.0,  2.0,  4.0,  7.0
-						11.7, 11.2,  8.1,   7.6,  6.0,  4.0,  2.0,  0.0,  2.0,  5.0
-						12.5, 11.0,  7.3,   7.1,  8.0,  6.0,  4.0,  2.0,  0.0,  3.0
+const unsigned char nameI[I] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}; // origins
+const unsigned char nameJ[J] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}; // destinations
+const double C[I*J] = { 0.0,   6.0,  4.0,   7.2, 11.2, 11.0, 11.2, 11.7, 12.5, 14.2,  
+						6.0,   0.0,  7.2,   4.0, 13.6, 13.0, 11.7, 11.2, 11.0, 11.2,
+						4.0,   7.2,  0.0,   6.0,  7.3,  7.0,  7.3,  8.1,  7.3,  9.2,
+						7.2,   4.0,  6.0,   0.0, 10.6,  9.9,  8.6,  7.6,  7.1,  7.3,
+						11.2, 13.6,  7.3,  10.6,  0.0,  2.0,  4.0,  6.0,  8.0, 11.0,
+						11.0, 13.0,  7.0,   9.9,  2.0,  0.0,  2.0,  4.0,  6.0,  9.0,
+						11.2, 11.7,  7.3,   8.6,  4.0,  2.0,  0.0,  2.0,  4.0,  7.0,
+						11.7, 11.2,  8.1,   7.6,  6.0,  4.0,  2.0,  0.0,  2.0,  5.0,
+						12.5, 11.0,  7.3,   7.1,  8.0,  6.0,  4.0,  2.0,  0.0,  3.0,
 						14.2, 11.2,  9.2,   7.3, 11.0,  9.0,  7.0,  5.0,  3.0,  0.0 }; 
 						// costs(origin, destination) LINEARIZED (just an implementation choice!)
 			
@@ -86,7 +86,8 @@ void setupLP(CEnv env, Prob lp)
 			idx[i] =  (I-1)*J + i*J + j; // corresponds to variable y_ij
 		}
 		int matbeg = 0;
-		CHECKED_CPX_CALL( CPXaddrows, env, lp, 0     , 1     , idx.size(), 1, &sense, &matbeg, &idx[0], &coef[0], NULL      , NULL      );
+		double rhs = 1;
+		CHECKED_CPX_CALL( CPXaddrows, env, lp, 0     , 1     , idx.size(), &rhs, &sense, &matbeg, &idx[0], &coef[0], NULL      , NULL      );
     	/// status =      CPXaddrows (env, lp, colcnt, rowcnt, nzcnt     , rhs  , sense , rmatbeg, rmatind, rmatval , newcolname, newrowname);
 	}
 
@@ -101,7 +102,8 @@ void setupLP(CEnv env, Prob lp)
 			idx[j] = (I-1)*J + i*J + j; // corresponds to variable y_ij
 		}
 		int matbeg = 0;
-		CHECKED_CPX_CALL( CPXaddrows, env, lp, 0     , 1     , idx.size(), 1, &sense, &matbeg, &idx[0], &coef[0], NULL      , NULL      );
+		double rhs = 1;
+		CHECKED_CPX_CALL( CPXaddrows, env, lp, 0     , 1     , idx.size(), &rhs, &sense, &matbeg, &idx[0], &coef[0], NULL      , NULL      );
     	/// status =      CPXaddrows (env, lp, colcnt, rowcnt, nzcnt     , rhs  , sense , rmatbeg, rmatind, rmatval , newcolname, newrowname);
 	}
 
@@ -119,7 +121,8 @@ void setupLP(CEnv env, Prob lp)
 			coef[1] = 1 - N;
 			char sense = 'L';
 			int matbeg = 0;
-			CHECKED_CPX_CALL( CPXaddrows, env, lp, 0     , 1     , idx.size(), 0, &sense, &matbeg, &idx[0], &coef[0], NULL      , NULL      );	
+			double rhs = 0;
+			CHECKED_CPX_CALL( CPXaddrows, env, lp, 0     , 1     , idx.size(), &rhs, &sense, &matbeg, &idx[0], &coef[0], NULL      , NULL      );	
 			/// status =      CPXaddrows (env, lp, colcnt, rowcnt, nzcnt     , rhs  , sense , rmatbeg, rmatind, rmatval , newcolname, newrowname);
 		}
 	}
@@ -140,7 +143,8 @@ void setupLP(CEnv env, Prob lp)
 			coef[I+j] = -1; 
 		}
 		int matbeg = 0;
-		CHECKED_CPX_CALL( CPXaddrows, env, lp, 0     , 1     , idx.size(), 1, &sense, &matbeg, &idx[0], &coef[0], NULL      , NULL      );
+		double rhs = 1;
+		CHECKED_CPX_CALL( CPXaddrows, env, lp, 0     , 1     , idx.size(), &rhs, &sense, &matbeg, &idx[0], &coef[0], NULL      , NULL      );
     	/// status =      CPXaddrows (env, lp, colcnt, rowcnt, nzcnt     , rhs  , sense , rmatbeg, rmatind, rmatval , newcolname, newrowname);
 	}
 
