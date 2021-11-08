@@ -1,10 +1,67 @@
 {
+    // "tasks": [
+    //     {
+    //     "type": "process",
+    //     "label": "C/C++: g++.exe build active file",
+    //     "command": "C:/Program Files (x86)/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/g++.exe",
+    //     // "args": ["-g", "${file}", "-o", "${fileDirname}\\${fileBasenameNoExtension}.exe"],
+    //     "args": ["-g", "${file}", "-o", "${fileDirname}\\${fileBasenameNoExtension}.exe", "-I", "C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex/include", "-L", "C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex/bin/cplex.dll"],
+    //     "options": {
+    //         "cwd": "${fileDirname}"
+    //     },
+    //     // "problemMatcher": ["$gcc"],
+    //     "group": {
+    //         "kind": "build",
+    //         "isDefault": true
+    //     },
+    //     "detail": "compiler: C:/Program Files (x86)/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/g++.exe"
+    //     },
+    //     {
+    //         "label": "Compiler",
+    //         "type": "shell",
+    //         "command": "C:/Program Files (x86)/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/g++.exe",
+    //         "args": ["-c", "${file}", "-I", "C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex/include", "-I" ,"C:/Program Files/IBM/ILOG/CPLEX_Studio201/concert/include"]
+    //         },
+    //         {
+    //             "label": "Linker",
+    //             "type": "shell",
+    //             "command": "C:/Program Files (x86)/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/g++.exe",
+    //             "args": ["main.o", "-o", "main.exe",
+    //                 "-L", "C:/Program Files/IBM/ILOG/CPLEX_Studio201/concert/lib/x64_windows_msvc14/stat_mda/concert.lib" ,
+    //                 "-L", "C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex/lib/x64_windows_msvc14/stat_mda/cplex2010.lib",
+    //                 "-L", "C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex/lib/x64_windows_msvc14/stat_mda/ilocplex.lib" ]
+    //         },
+    //         {
+    //             "label": "build full",
+    //             "dependsOn":  ["Compiler", "Linker"],
+    //             "group": {
+    //                 "kind": "build",
+    //                 "isDefault": true
+    //             }
+    //     }
+    // ],
+
+    
+        // "version": "2.0.0",
+        "windows": {
+          "options": {
+            "shell": {
+              "executable": "cmd.exe",
+              "args": [
+                "/C",
+                "\"C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/Tools/VsDevCmd.bat\"",
+                "&&"
+              ]
+            }
+          }
+        },
     "tasks": [
         {
         "type": "process",
         "label": "C/C++: g++.exe build active file",
-        "command": "C:/Program Files (x86)/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/g++.exe",
-        "args": ["-g", "${file}", "-o", "${fileDirname}\\${fileBasenameNoExtension}.exe"],
+        "command": "cl.exe",
+        // "args": ["-g", "${file}", "-o", "${fileDirname}\\${fileBasenameNoExtension}.exe"],
+        "args": ["-g", "${file}", "-o", "${fileDirname}\\${fileBasenameNoExtension}.exe", "-I", "C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex/include", "-L", "C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex/bin/cplex.dll"],
         "options": {
             "cwd": "${fileDirname}"
         },
@@ -12,9 +69,67 @@
         "group": {
             "kind": "build",
             "isDefault": true
+        }
+        // "detail": "compiler: C:/Program Files (x86)/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/g++.exe"
         },
-        "detail": "compiler: C:/Program Files (x86)/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/g++.exe"
+        {
+            "label": "Compiler",
+            "type": "shell",
+            "command": "cl.exe",
+            "args": ["-c", "${file}", "-I", "C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex/include", "-I" ,"C:/Program Files/IBM/ILOG/CPLEX_Studio201/concert/include"]
+            },
+        {
+            "label": "Linker",
+            "type": "shell",
+            "command": "cl.exe",
+            "args": ["main.o", "-o", "main.exe",
+                "-L", "C:/Program Files/IBM/ILOG/CPLEX_Studio201/concert/lib/x64_windows_msvc14/stat_mda/concert.lib" ,
+                "-L", "C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex/lib/x64_windows_msvc14/stat_mda/cplex2010.lib",
+                "-L", "C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex/lib/x64_windows_msvc14/stat_mda/ilocplex.lib" ]
+        },
+        {
+            "label": "build full",
+            "dependsOn":  ["Compiler", "Linker"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+        }
         }
     ],
     "version": "2.0.0"
 }
+
+// {
+//     "version": "2.0.0",
+//     "windows": {
+//       "options": {
+//         "shell": {
+//           "executable": "cmd.exe",
+//           "args": [
+//             "/C",
+//             "\"C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/Common7/Tools/VsDevCmd.bat\"",
+//             "&&"
+//           ]
+//         }
+//       }
+//     },
+//     "tasks": [
+//       {
+//         "type": "shell",
+//         "label": "cl.exe build active file",
+//         "command": "cl.exe",
+//         "args": [
+//           "/Zi",
+//           "/EHsc",
+//           "/Fe:",
+//           "${fileDirname}\\${fileBasenameNoExtension}.exe",
+//           "${file}"
+//         ],
+//         "problemMatcher": ["$msCompile"],
+//         "group": {
+//           "kind": "build",
+//           "isDefault": true
+//         }
+//       }
+//     ]
+//   }

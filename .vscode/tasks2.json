@@ -1,0 +1,25 @@
+{
+    "tasks": [
+        {
+        "label": "Compiler",
+        "type": "shell",
+        "command": "C:/Program Files (x86)/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/g++.exe",
+        "args": ["-c", "${file}", "-I", "C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex/include"]
+        },
+        {
+            "label": "Linker",
+            "type": "shell",
+            "command": "C:/Program Files (x86)/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/g++.exe",
+            "args": ["main.o", "-o", "main.exe", "-L", "C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex/include" ]
+        },
+        {
+            "label": "build full",
+            "dependsOn":  ["Compiler", "Linker"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ],   
+    "version": "2.0.0"
+}

@@ -3,7 +3,9 @@
         {
             "name": "Linux",
             "includePath": [
-                "${default}"
+                "${default}",
+                "C:/Program Files/IBM/ILOG/CPLEX_Studio201/cplex/include",
+                "C:/Program Files/IBM/ILOG/CPLEX_Studio201/concert/include"
             ],
             "compilerPath": "/usr/bin/clang",
             "cStandard": "c11",
