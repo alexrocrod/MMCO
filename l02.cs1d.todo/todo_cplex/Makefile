@@ -2,9 +2,10 @@ CC = g++
 CPPFLAGS = -g -Wall -O2
 LDFLAGS =
 
-CPX_INCDIR  = /opt/CPLEX_Studio/cplex/include
-CPX_LIBDIR  = /opt/CPLEX_Studio/cplex/lib/x86-64_linux/static_pic
-CPX_LDFLAGS = -lcplex -lm -pthread
+CPX_BASE    = /opt/ibm/ILOG/CPLEX_Studio128
+CPX_INCDIR  = $(CPX_BASE)/cplex/include
+CPX_LIBDIR  = $(CPX_BASE)/cplex/lib/x86-64_linux/static_pic
+CPX_LDFLAGS = -lcplex -lm -pthread -ldl
 
 OBJ = main.o knapsack.o cs1d.o
 
