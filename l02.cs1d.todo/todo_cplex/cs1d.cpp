@@ -76,10 +76,8 @@ bool CS1D::price(Env pricerEnv, const Data& data, const std::vector<double>& u)
 	std::vector<double> z;
 	double value;
 	
-	
-	//TODO...
-	//CALL kp.exec to solve the right knapsack problem and get 
-	//	the related objective function into < value >
+	//CALL kp.exec to solve the right knapsack problem and get the related objective function into < value >
+	kp.exec(data.L, u, data.W, z, value);
 	//...
 	
 	if (1 - value > -ZERO_EPS) return false;
