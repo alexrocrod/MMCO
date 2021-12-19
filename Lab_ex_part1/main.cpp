@@ -16,22 +16,34 @@ int status;
 char errmsg[BUF_SIZE];
 
 // data
-const int N = 10;
-const int I = 10;
-const int J = 10;
-const unsigned char nameI[I] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}; // origins
-const unsigned char nameJ[J] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}; // destinations
-const double C[I*J] = { 0.0,   6.0,  4.0,   7.2, 11.2, 11.0, 11.2, 11.7, 12.5, 14.2,  
-						6.0,   0.0,  7.2,   4.0, 13.6, 13.0, 11.7, 11.2, 11.0, 11.2,
-						4.0,   7.2,  0.0,   6.0,  7.3,  7.0,  7.3,  8.1,  7.3,  9.2,
-						7.2,   4.0,  6.0,   0.0, 10.6,  9.9,  8.6,  7.6,  7.1,  7.3,
-						11.2, 13.6,  7.3,  10.6,  0.0,  2.0,  4.0,  6.0,  8.0, 11.0,
-						11.0, 13.0,  7.0,   9.9,  2.0,  0.0,  2.0,  4.0,  6.0,  9.0,
-						11.2, 11.7,  7.3,   8.6,  4.0,  2.0,  0.0,  2.0,  4.0,  7.0,
-						11.7, 11.2,  8.1,   7.6,  6.0,  4.0,  2.0,  0.0,  2.0,  5.0,
-						12.5, 11.0,  7.3,   7.1,  8.0,  6.0,  4.0,  2.0,  0.0,  3.0,
-						14.2, 11.2,  9.2,   7.3, 11.0,  9.0,  7.0,  5.0,  3.0,  0.0 }; 
-						// costs(origin, destination) LINEARIZED (just an implementation choice!)
+// const int N = 10;
+// const int I = 10;
+// const int J = 10;
+// const unsigned char nameI[I] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}; // origins
+// const unsigned char nameJ[J] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}; // destinations
+// const double C[I*J] = { 0.0,   6.0,  4.0,   7.2, 11.2, 11.0, 11.2, 11.7, 12.5, 14.2,  
+// 						6.0,   0.0,  7.2,   4.0, 13.6, 13.0, 11.7, 11.2, 11.0, 11.2,
+// 						4.0,   7.2,  0.0,   6.0,  7.3,  7.0,  7.3,  8.1,  7.3,  9.2,
+// 						7.2,   4.0,  6.0,   0.0, 10.6,  9.9,  8.6,  7.6,  7.1,  7.3,
+// 						11.2, 13.6,  7.3,  10.6,  0.0,  2.0,  4.0,  6.0,  8.0, 11.0,
+// 						11.0, 13.0,  7.0,   9.9,  2.0,  0.0,  2.0,  4.0,  6.0,  9.0,
+// 						11.2, 11.7,  7.3,   8.6,  4.0,  2.0,  0.0,  2.0,  4.0,  7.0,
+// 						11.7, 11.2,  8.1,   7.6,  6.0,  4.0,  2.0,  0.0,  2.0,  5.0,
+// 						12.5, 11.0,  7.3,   7.1,  8.0,  6.0,  4.0,  2.0,  0.0,  3.0,
+// 						14.2, 11.2,  9.2,   7.3, 11.0,  9.0,  7.0,  5.0,  3.0,  0.0 }; 
+// 						// costs(origin, destination) LINEARIZED (just an implementation choice!)
+
+const int N = 5;
+const int I = 5;
+const int J = 5;
+const unsigned char nameI[I] = { '0', '1', '2', '3', '4'}; // origins
+const unsigned char nameJ[J] = { '0', '1', '2', '3', '4'}; // destinations
+const double C[I*J] = { 0.0,   6.0,  4.0,   7.2, 11.2,  
+						6.0,   0.0,  7.2,   4.0, 13.6,
+						4.0,   7.2,  0.0,   6.0,  7.3,
+						7.2,   4.0,  6.0,   0.0, 10.6,
+						11.2, 13.6,  7.3,  10.6,  0.0}; 
+						// costs(origin, destination) LINEARIZED (just an implementation choice
 			
 const int NAME_SIZE = 512;
 char name[NAME_SIZE];
@@ -115,7 +127,8 @@ void setupLP(CEnv env, Prob lp)
 		for (int j = 1; j < J; j++)
 		{
 			std::vector<int> idx(2); 
-			idx[0] = i*(J-1) + j; // x_ij 
+			// idx[0] = i*(J-1) + j; // x_ij 
+			idx[0] = i*(J-1) + j-1; // x_ij 
 			idx[1] = (I-1)*J + i*J + j; // y_ij
 			std::vector<double> coef(2);
 			coef[0] = 1;
@@ -136,11 +149,13 @@ void setupLP(CEnv env, Prob lp)
 		char sense = 'E';
 		for (int i = 0; i < I; i++)
 		{
-			idx[i] = i*(J-1) + k; // corresponds to variable x_ik
+			// idx[i] = i*(J-1) + k; // corresponds to variable x_ik
+			idx[i] = i*(J-1) + k-1; // corresponds to variable x_ik
 		}
 		for (int j = 0; j < J; j++)
 		{
-			idx[I+j] = k*(J-1) + j; // corresponds to variable x_kj
+			// idx[I+j] = k*(J-1) + j; // corresponds to variable x_kj
+			idx[I+j] = k*(J-1) + j-1; // corresponds to variable x_kj
 			coef[I+j] = -1; 
 		}
 		int matbeg = 0;

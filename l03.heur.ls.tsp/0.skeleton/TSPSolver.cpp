@@ -15,22 +15,28 @@ bool TSPSolver::solve ( const TSP& tsp , const TSPSolution& initSol , TSPSolutio
         int  iter = 0;
 
         TSPSolution currSol(initSol);
-        double bestValue, currValue;
-        bestValue = currValue = evaluate(currSol,tsp);
+        // double bestValue, currValue;
+        double currValue;
+        // bestValue = currValue = evaluate(currSol,tsp);
+        currValue = evaluate(currSol,tsp);
         TSPMove move;
         while ( ! stop ) {
             /// local search iteration...
+            if ( tsp.n < 20 ) currSol.print(); //log current solution (only small instances)
+                std::cout << " (" << ++iter << "ls) value " << currValue << " (" << evaluate(currSol,tsp) << ")";
             double bestNeighValue = currValue + findBestNeighborIncrement(tsp, currSol, move);
+            ///incremental evaluation: findBestNeighbour returns the cost increment
+      				std::cout << " move: " << move.from << " , " << move.to << std::endl;
             if (bestNeighValue < currValue){
-                bestValue = currValue = bestNeighValue;
-                applySwapMove(currSol,move);
+                // bestValue = currValue = bestNeighValue;
+                currValue = bestNeighValue;
+                currSol = applySwapMove(currSol,move);
                 stop = false;
             }
             else{
                 stop = true;
             }
         // DONE;
-                if ( true ) stop = true;
         }
         bestSol = currSol;
     }
@@ -69,10 +75,11 @@ double TSPSolver::findBestNeighborIncrement( const TSP& tsp, const TSPSolution& 
     return bestCostVariation;
 }
 
-void TSPSolver::applySwapMove(TSPSolution& currSol, const TSPMove& move){
+TSPSolution TSPSolver::applySwapMove(TSPSolution& currSol, const TSPMove& move){
     TSPSolution impSol(currSol);
-    for ( size_t i = move.from; i <= move.to; ++i)
+    for ( int i = move.from; i <= move.to; ++i)
     {
         currSol.sequence[i] = impSol.sequence[move.to-(i-move.from)];
     }
+    return currSol;
 }
