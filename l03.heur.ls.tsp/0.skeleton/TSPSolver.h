@@ -71,6 +71,8 @@ public:
 
 protected:
   //TODO: declare here any "internal" method
+  double findBestNeighborIncrement( const TSP& tsp, const TSPSolution& currSol, TSPMove& move);
+  void applySwapMove(TSPSolution& currSol, const TSPMove& move);
 
 };
 
