@@ -213,7 +213,7 @@ int read(const char* filename, std::vector<std::vector<double>> & pos, std::vect
 		for (int j = 0; j < n; j++) {
 			double c = abs(pos[i][0]-pos[j][0]) + abs(pos[i][1]-pos[j][1]); // Manhatan distance
 			// double c = sqrt(pow((pos[i][0]-pos[j][0]),2) + pow((pos[i][1]-pos[j][1]),2)); // Euclidean distance
-			std::cout << "(" << i << "," << j << ") -> " << c << std::endl;
+			// std::cout << "(" << i << "," << j << ") -> " << c << std::endl;
 			cost[i].push_back(c);
 		}
 	}
@@ -228,7 +228,6 @@ int main (int argc, char const *argv[])
 		std::vector<std::vector<double>> cost;
 		std::vector<std::vector<double>> pos;
 		int N = read(argv[1],pos,cost);
-		// return 0;
 
 		// init
 		DECL_ENV(env);
