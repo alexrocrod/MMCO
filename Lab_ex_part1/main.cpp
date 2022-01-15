@@ -138,78 +138,15 @@ void setupLP(CEnv env, Prob lp, const int N, const std::vector<std::vector<doubl
 	CHECKED_CPX_CALL( CPXwriteprob, env, lp, "ex1.lp", NULL );
 }
 
-int read(const char* filename, std::vector<std::vector<double>> & pos, std::vector< std::vector<double> > & cost)
+void computeCost(const int n, const std::vector<std::vector<double>> & pos, std::vector< std::vector<double>> & cost)
 {
-	int n = 0;
-	std::ifstream in(filename);
-	// read size
-	in >> n;
-	std::cout << "number of nodes n = " << n << std::endl;
-	// read positions
-	pos.resize(n);
-	for (int i = 0; i < n; i++) {
-		pos[i].reserve(2);
-		for (int j = 0; j < 2; j++) {
-			double c;
-			in >> c;
-			pos[i].push_back(c);
-		}
-	}
-	in.close();
 	// compute costs
 	cost.resize(n);
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; i++) 
+	{
 		cost[i].reserve(n);
-		for (int j = 0; j < n; j++) {
-			double c = abs(pos[i][0]-pos[j][0]) + abs(pos[i][1]-pos[j][1]); // Manhatan distance
-			// double c = sqrt(pow((pos[i][0]-pos[j][0]),2) + pow((pos[i][1]-pos[j][1]),2)); // Euclidean distance
-			// std::cout << "(" << i << "," << j << ") -> " << c << std::endl;
-			cost[i].push_back(c);
-		}
-	}
-	return n;
-}
-
-void randomCost(const int n, std::vector<std::vector<double>> & pos, std::vector< std::vector<double> > & cost)
-{
-	std::cout << "number of random nodes n = " << n << std::endl;
-	std::vector<int> v1(n) ; // vector with N ints.
-	std::iota (std::begin(v1), std::end(v1), 0); // Fill with 0, 1, ..., N.
-	std::vector<std::vector<double>> allPos;
-	allPos.resize(n*n);
-
-    // Nested loop for all possible pairs
-	int a = 0;
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            allPos[a].resize(2);
-			allPos[a][0] = i;
-			allPos[a][1] = j;
-			a++;
-        }
-		
-    }
-	// for (int i = 0; i < n*n; i++) {
-    //     std::cout << "(" << allPos[i][0] << "," << allPos[i][1] << ")\n"; 
-    // }
-	// std::cout << "All pairs done\n";
-
-	std::srand(std::time(0));
-	std::random_shuffle(allPos.begin(),allPos.end()); // shuffle all pairs
-
-	pos.resize(n);
-	for (int i = 0; i < n; i++) {
-        std::cout << "(" << allPos[i][0] << "," << allPos[i][1] << ")\n";
-		pos[i].resize(2);
-		pos[i][0] = allPos[i][0];
-		pos[i][1] = allPos[i][1]; // save postions as the first N from the N*N pairs
-    }
-
-	// compute costs
-	cost.resize(n);
-	for (int i = 0; i < n; i++) {
-		cost[i].reserve(n);
-		for (int j = 0; j < n; j++) {
+		for (int j = 0; j < n; j++) 
+		{
 			double c = abs(pos[i][0]-pos[j][0]) + abs(pos[i][1]-pos[j][1]); // Manhatan distance
 			// double c = sqrt(pow((pos[i][0]-pos[j][0]),2) + pow((pos[i][1]-pos[j][1]),2)); // Euclidean distance
 			// std::cout << "(" << i << "," << j << ") -> " << c << std::endl;
@@ -219,6 +156,84 @@ void randomCost(const int n, std::vector<std::vector<double>> & pos, std::vector
 	return;
 }
 
+int read(const char* filename, std::vector<std::vector<double>> & pos, std::vector< std::vector<double> > & cost)
+{
+	int n = 0;
+	std::ifstream in(filename);
+	// read size
+	in >> n;
+	std::cout << "number of nodes n = " << n << std::endl;
+	// read positions
+	pos.resize(n);
+	for (int i = 0; i < n; i++) 
+	{
+		pos[i].reserve(2);
+		for (int j = 0; j < 2; j++) 
+		{
+			double c;
+			in >> c;
+			pos[i].push_back(c);
+		}
+	}
+	in.close();
+
+	// compute costs
+	computeCost(n, pos, cost);
+	return n;
+}
+
+void randomCost(const int n, std::vector<std::vector<double>> & pos, std::vector< std::vector<double> > & cost)
+{
+	std::cout << "number of random nodes n = " << n << std::endl;
+	std::vector<int> v1(n) ; // vector with N ints.
+	std::iota (std::begin(v1), std::end(v1), 0); // Fill with 0, 1, ..., N.
+	std::vector<std::vector<double>> allPos;
+	
+	// Random but from 0 to N-1
+	// allPos.resize(n*n);
+	// int msize = n;
+	// int min = 0;
+
+	// Random but from 1 to N-2
+	allPos.resize((n-2)*(n-2));
+	int msize = n - 1;
+	int min = 1;
+
+    // Nested loop for all possible pairs
+	int a = 0;
+    for (int i = min; i < msize; i++) 
+	{
+        for (int j = min; j < msize; j++) 
+		{
+            allPos[a].resize(2);
+			allPos[a][0] = i;
+			allPos[a][1] = j;
+			a++;
+        }
+		
+    }
+
+	// for (int i = 0; i < n*n; i++) {
+    //     std::cout << "(" << allPos[i][0] << "," << allPos[i][1] << ")\n"; 
+    // }
+	// std::cout << "All pairs done\n";
+
+	std::srand(std::time(0));
+	std::random_shuffle(allPos.begin(),allPos.end()); // shuffle all pairs
+
+	pos.resize(n);
+	for (int i = 0; i < n; i++) 
+	{
+        // std::cout << "(" << allPos[i][0] << "," << allPos[i][1] << ")\n";
+		pos[i].resize(2);
+		pos[i][0] = allPos[i][0];
+		pos[i][1] = allPos[i][1]; // save postions as the first N from the N*N pairs
+    }
+
+	// compute costs
+	computeCost(n,pos,cost);
+	return;
+}
 
 int main (int argc, char const *argv[])
 {
