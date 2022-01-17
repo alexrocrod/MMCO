@@ -1,0 +1,36 @@
+tabu =  8 , maxiter =  2000 , N = 1000
+FROM  674484)
+TO    31974)
+in 6.19781 seconds (chrono time)
+FROM  660940)
+TO    31242)
+in 6.16556 seconds (chrono time)
+FROM  643288)
+TO    31646)
+in 6.21527 seconds (chrono time)
+
+
+
+
+
+FROM  650550)
+TO    32336)
+in 6.26118 seconds (chrono time)
+FROM  665586)
+TO    32802)
+in 6.27543 seconds (chrono time)
+FROM  657102)
+TO    31952)
+in 6.0869 seconds (chrono time)
+FROM  695028)
+TO    32736)
+in 6.26962 seconds (chrono time)
+FROM  657710)
+TO    31480)
+in 6.06063 seconds (chrono time)
+FROM  653132)
+TO    32022)
+in 6.19047 seconds (chrono time)
+FROM  656694)
+TO    32164)
+in 6.19808 seconds (chrono time)

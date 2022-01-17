@@ -2,15 +2,20 @@
 # $1 -> tabu length
 # $2 -> maxiter
 # $3 -> nodes N
-
+TABU=6
+if [ $1 -gt 49 ]
+then
+    TABU=8
+fi
+MAXIT=$((2*$1))
 
 MAX=30 # number of runs
-if [ $3 -gt 70 ]
+if [ $1 -gt 70 ]
 then
     MAX=10
 fi
-echo 'tabu = ' $1 ', maxiter = ' $2 ', N =' $3 >  Results/results$3.txt  # clean results file
+echo 'tabu = ' $TABU ', maxiter = ' $MAXIT ', N =' $1 >  Results/results$1.txt  # clean results file
 for ((i=0; i<$MAX; i++))
 do 
-    ./main rand $1 $2 x $3 >> Results/results$3.txt
+    ./main rand $TABU $MAXIT x $1 >> Results/results$1.txt
 done

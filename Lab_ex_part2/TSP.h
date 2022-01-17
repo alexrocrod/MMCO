@@ -112,14 +112,14 @@ public:
     std::vector<std::vector<double>> pos;
     
     // Random from 0 to N-1
-    allPos.resize(n*n);
-    int msize = n;
-    int min = 0;
+    // allPos.resize(n*n);
+    // int msize = n;
+    // int min = 0;
 
     // Random but from 1 to N-2
-    // allPos.resize((n-2)*(n-2));
-    // int msize = n - 1;
-    // int min = 1;
+    allPos.resize((n-2)*(n-2));
+    int msize = n - 1;
+    int min = 1;
 
       // Nested loop for all possible pairs
     int a = 0;
