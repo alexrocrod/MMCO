@@ -3,17 +3,17 @@
  * @brief initial model test for 10 holes with layout similar to the picture
  */
 
-#include <cstdio>
-#include <iostream>
+// #include <cstdio>
+// #include <iostream>
 #include <vector>
-#include <stdio.h>
-#include <math.h>
-#include <numeric>
+// #include <stdio.h>
+// #include <math.h>
+// #include <numeric>
 #include <fstream>
 #include <random>
 #include <algorithm>
-#include <iterator>
-#include <ctime>
+// #include <iterator>
+// #include <ctime>
 #include "cpxmacro.h"
 #include "Timer.h"
 
