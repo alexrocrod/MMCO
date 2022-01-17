@@ -8,7 +8,7 @@
 #define TSPSOLVER_H
 
 // #include <vector>
-
+#include <unistd.h>
 #include "TSPSolution.h"
 
 /**
@@ -37,9 +37,24 @@ public:
     }
     return total;
   }
-
+  unsigned long superSeed()
+  {	
+    unsigned long a = clock();
+    unsigned long b = time(NULL);
+    unsigned long c = getpid();
+    a=a-b;  a=a-c;  a=a^(c >> 13);
+    b=b-c;  b=b-a;  b=b^(a << 8);
+    c=c-a;  c=c-b;  c=c^(b >> 13);
+    a=a-b;  a=a-c;  a=a^(c >> 12);
+    b=b-c;  b=b-a;  b=b^(a << 16);
+    c=c-a;  c=c-b;  c=c^(b >> 5);
+    a=a-b;  a=a-c;  a=a^(c >> 3);
+    b=b-c;  b=b-a;  b=b^(a << 10);
+    c=c-a;  c=c-b;  c=c^(b >> 15);
+    return c;
+  }
   bool initRnd ( TSPSolution& sol ) {
-    srand(time(NULL));
+    srand(superSeed());
     for ( uint i = 1 ; i < sol.sequence.size() ; ++i ) {
       // intial and final position are fixed (initial/final node remains 0)
       int idx1 = rand() % (sol.sequence.size()-2) + 1;
@@ -48,7 +63,7 @@ public:
       sol.sequence[idx1] = sol.sequence[idx2];
       sol.sequence[idx2] = tmp;
     }
-    std::cout << "### "; sol.print(); std::cout << " ###" << std::endl;
+    // std::cout << "### "; sol.print(); std::cout << " ###" << std::endl;
     return true;
   }
 

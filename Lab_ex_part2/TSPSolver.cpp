@@ -26,8 +26,8 @@ bool TSPSolver::solve ( const TSP& tsp , const TSPSolution& initSol , int tabule
     TSPMove move;
     while ( ! stop ) {
       ++iter;                                                                                             /// TS: iter not only for displaying
-      				if ( tsp.n < 20 ) currSol.print();
-      				std::cout << " (" << iter << "ac) value " << currValue << "\t(" << evaluate(currSol,tsp) << ")";
+      				// if ( tsp.n < 20 ) currSol.print();
+      				// std::cout << " (" << iter << "ac) value " << currValue << "\t(" << evaluate(currSol,tsp) << ")";
 
       double aspiration = bestValue-currValue;                                                            //**// TSAC: aspired IMPROVEMENT (to improve over bestValue)
       double bestNeighValue = currValue + findBestNeighbor(tsp,currSol,iter,aspiration,move);             //**// TSAC: aspiration
@@ -40,12 +40,12 @@ bool TSPSolver::solve ( const TSP& tsp , const TSPSolution& initSol , int tabule
       //}                                           ///
       
       if ( bestNeighValue >= tsp.infinite ) {       /// TS: stop because all neighbours are tabu
-        std::cout << "\tmove: NO legal neighbour" << std::endl;   ///
+        // std::cout << "\tmove: NO legal neighbour" << std::endl;   ///
         stop = true;                                ///
         continue;                                   ///
       }                                             ///
       
-      				std::cout << "\tmove: " << move.from << " , " << move.to;
+      				// std::cout << "\tmove: " << move.from << " , " << move.to;
       
 			updateTabuList(currSol.sequence[move.from],currSol.sequence[move.to],iter);	/// TS: insert move info into tabu list
 			      
@@ -54,13 +54,13 @@ bool TSPSolver::solve ( const TSP& tsp , const TSPSolution& initSol , int tabule
       if ( currValue < bestValue - 0.01 ) {					/// TS: update incumbent (if better -with tolerance- solution found)
         bestValue = currValue;                                                                            ///
         bestSol = currSol;                                                                                ///
-        			std::cout << "\t***";                                                                       ///
+        			// std::cout << "\t***";                                                                       ///
       }                                                                                                   /// 
       
       if ( iter > maxIter ) {                                                                             /// TS: new stopping criteria
         stop = true;                                                                                      ///
       }                                                                                                   ///
-      				std::cout << std::endl;
+      				// std::cout << std::endl;
     }
     //bestSol = currSol;                            /// TS: not always the neighbor improves over 
                                                                                                           ///     the best available (incumbent) solution 

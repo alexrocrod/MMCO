@@ -4,7 +4,7 @@ if [ $1 -gt 70 ]
 then
     MAX=10
 fi
-echo '' >  Results/results$1.txt  # clean results file
+echo 'N =' $1 >  Results/results$1.txt  # clean results file
 for ((i=0; i<$MAX; i++))
 do 
     ./main rand $1 >> Results/results$1.txt

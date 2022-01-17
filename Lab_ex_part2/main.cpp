@@ -20,7 +20,7 @@ int main (int argc, char const *argv[])
 {
   try
   {
-    if (argc < 4) throw std::runtime_error("usage: ./main filename.dat tabulength maxiter [readPos] [Nrandom]");  /// new parameters for TS
+    if (argc < 4 ) throw std::runtime_error("usage: ./main filename.dat tabulength maxiter [readPos] [Nrandom]");  /// new parameters for TS
     int tabuLength = atoi(argv[2]);                                                           /// new parameters for TS
     int maxIter    = atoi(argv[3]);                                                           /// new parameters for TS
     TSP tspInstance; 
@@ -28,7 +28,7 @@ int main (int argc, char const *argv[])
       tspInstance.readPos(argv[1]);
     else if (argc == 6)
 		{
-			int N = atoi(argv[2]);
+			int N = atoi(argv[5]);
 			tspInstance.randomCost(N);
 		}
     else
@@ -54,10 +54,10 @@ int main (int argc, char const *argv[])
     double micros = tnew.stopMicro();
 		
     std::cout << "FROM solution: "; 
-    aSolution.print();
+    // aSolution.print();
     std::cout << "(value : " << tspSolver.evaluate(aSolution,tspInstance) << ")\n";
     std::cout << "TO   solution: "; 
-    bestSolution.print();
+    // bestSolution.print();
     std::cout << "(value : " << tspSolver.evaluate(bestSolution,tspInstance) << ")\n";
     // std::cout << "in " << (double)(tv2.tv_sec+tv2.tv_usec*1e-6 - (tv1.tv_sec+tv1.tv_usec*1e-6)) << " seconds (user time)\n";
     // std::cout << "in " << (double)(t2-t1) / CLOCKS_PER_SEC << " seconds (CPU time)\n";

@@ -105,7 +105,7 @@ public:
   void randomCost(const int N)
   {
     n = N;
-    std::cout << "number of random nodes n = " << n << std::endl;
+    // std::cout << "number of random nodes n = " << n << std::endl;
     std::vector<int> v1(n) ; // vector with N ints.
     std::iota (std::begin(v1), std::end(v1), 0); // Fill with 0, 1, ..., N.
     std::vector<std::vector<double>> allPos;

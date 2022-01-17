@@ -14,6 +14,7 @@
 #include <algorithm>
 // #include <iterator>
 // #include <ctime>
+#include <unistd.h>
 #include "cpxmacro.h"
 #include "Timer.h"
 
@@ -181,10 +182,25 @@ int read(const char* filename, std::vector<std::vector<double>> & pos, std::vect
 	computeCost(n, pos, cost);
 	return n;
 }
-
+unsigned long superSeed()
+{	
+	unsigned long a = clock();
+	unsigned long b = std::time(NULL);
+	unsigned long c = getpid();
+	a=a-b;  a=a-c;  a=a^(c >> 13);
+	b=b-c;  b=b-a;  b=b^(a << 8);
+	c=c-a;  c=c-b;  c=c^(b >> 13);
+	a=a-b;  a=a-c;  a=a^(c >> 12);
+	b=b-c;  b=b-a;  b=b^(a << 16);
+	c=c-a;  c=c-b;  c=c^(b >> 5);
+	a=a-b;  a=a-c;  a=a^(c >> 3);
+	b=b-c;  b=b-a;  b=b^(a << 10);
+	c=c-a;  c=c-b;  c=c^(b >> 15);
+	return c;
+}
 void randomCost(const int n, std::vector<std::vector<double>> & pos, std::vector< std::vector<double> > & cost)
 {
-	std::cout << "number of random nodes n = " << n << std::endl;
+	// std::cout << "number of random nodes n = " << n << std::endl;
 	std::vector<int> v1(n) ; // vector with N ints.
 	std::iota (std::begin(v1), std::end(v1), 0); // Fill with 0, 1, ..., N.
 	std::vector<std::vector<double>> allPos;
@@ -218,7 +234,8 @@ void randomCost(const int n, std::vector<std::vector<double>> & pos, std::vector
     // }
 	// std::cout << "All pairs done\n";
 
-	std::srand(std::time(0));
+    std::srand(superSeed());
+	// std::srand(std::time(0));
 	std::random_shuffle(allPos.begin(),allPos.end()); // shuffle all pairs
 
 	pos.resize(n);
