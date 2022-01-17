@@ -9,6 +9,7 @@
 #include <sys/time.h>
 
 #include "TSPSolver.h"
+#include "Timer.h"
 
 // error status and messagge buffer
 int status;
@@ -34,6 +35,9 @@ int main (int argc, char const *argv[])
     ///   2) wall-clock time (tv2 - tv1)
     struct timeval  tv1, tv2;
     gettimeofday(&tv1, NULL);
+    ///   3) Timer from chrono
+    Log::Timer tnew;
+
     
     /// create solver class
     TSPSolver tspSolver;
@@ -47,7 +51,8 @@ int main (int argc, char const *argv[])
     /// final clocks
     t2 = clock();
     gettimeofday(&tv2, NULL);
-    
+    double milis = tnew.stopMicro();
+
     std::cout << "FROM solution: "; 
     aSolution.print();
     std::cout << "(value : " << tspSolver.evaluate(aSolution,tspInstance) << ")\n";
@@ -56,6 +61,7 @@ int main (int argc, char const *argv[])
     std::cout << "(value : " << tspSolver.evaluate(bestSolution,tspInstance) << ")\n";
     std::cout << "in " << (double)(tv2.tv_sec+tv2.tv_usec*1e-6 - (tv1.tv_sec+tv1.tv_usec*1e-6)) << " seconds (user time)\n";
     std::cout << "in " << (double)(t2-t1) / CLOCKS_PER_SEC << " seconds (CPU time)\n";
+    std::cout << "in " << milis*1e-6 << " seconds (chrono time)\n";
     
   }
   catch(std::exception& e)
