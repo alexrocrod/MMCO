@@ -24,7 +24,7 @@ bool TSPSolver::solve ( const TSP& tsp , const TSPSolution& initSol , TSPSolutio
             /// local search iteration...
             if ( tsp.n < 20 ) currSol.print(); //log current solution (only small instances)
                 std::cout << " (" << ++iter << "ls) value " << currValue << " (" << evaluate(currSol,tsp) << ")";
-            double bestNeighValue = currValue + findBestNeighborIncrement(tsp, currSol, move);
+            double bestNeighValue = currValue + findBestNeighbor(tsp, currSol, move);
             ///incremental evaluation: findBestNeighbour returns the cost increment
       				std::cout << " move: " << move.from << " , " << move.to << std::endl;
             if (bestNeighValue < currValue){
@@ -48,8 +48,7 @@ bool TSPSolver::solve ( const TSP& tsp , const TSPSolution& initSol , TSPSolutio
     return true;
 }
 
-//TODO: "internal methods", if any
-double TSPSolver::findBestNeighborIncrement( const TSP& tsp, const TSPSolution& currSol, TSPMove& move){
+double TSPSolver::findBestNeighbor( const TSP& tsp, const TSPSolution& currSol, TSPMove& move){
     double bestCostVariation = tsp.infinite;
 
     // 0.padova 1.c 2. .... n-1.c n.padova  [currSol]
@@ -75,7 +74,7 @@ double TSPSolver::findBestNeighborIncrement( const TSP& tsp, const TSPSolution& 
     return bestCostVariation;
 }
 
-TSPSolution TSPSolver::applySwapMove(TSPSolution& currSol, const TSPMove& move){
+TSPSolution& TSPSolver::applySwapMove(TSPSolution& currSol, const TSPMove& move){
     TSPSolution impSol(currSol);
     for ( int i = move.from; i <= move.to; ++i)
     {
