@@ -70,9 +70,21 @@ public:
   bool solve ( const TSP& tsp , const TSPSolution& initSol , TSPSolution& bestSol );
 
 protected:
-  //TODO: declare here any "internal" method
-  double findBestNeighborIncrement( const TSP& tsp, const TSPSolution& currSol, TSPMove& move);
-  TSPSolution applySwapMove(TSPSolution& currSol, const TSPMove& move);
+  /**
+   * explore the neighbouhood
+   * @param tsp TSP data
+   * @param currSol center solution
+   * @return (into param move) the selected move (stepest descent strategy)
+   * @return the incremental cost with respect to currSol
+   */
+  double findBestNeighbor(const TSP& tsp, const TSPSolution& currSol, TSPMove& move );
+  /**
+   * perform a swap move (corresponding to 2-opt)
+   * @param tspSol solution to be perturbed
+   * @param move move to perform
+   * @return (into param tspSol) the perturbed solution
+   */
+  TSPSolution& applySwapMove(TSPSolution& tspSol, const TSPMove& move );
 
 };
 
