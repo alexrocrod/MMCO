@@ -41,31 +41,49 @@
 			
 	
 	\section{Results}
+		I tested class 3 only for n=10 with 6 instances, 5 runs each.
+		The class 2 intances are random but slightly domain specific.
+		In this case I simply removed the possiblity to have holes in the borders of the board.
+		
+		Class 1 is fully random:
+		board as size = N
+		so $ x \in {0,N-1}$
+		hole of size 1
+		
+		Both class 1 and 2 were tested using 30 random instances for $ 10 \le n \le 70 $.
+		Due to the considerable time I reduced it to 10 instances for $ 80 \le n \le 100 $.
+		
+		
+		The time to drill a hole is constant so we can diregard it.
+		The total cost would be $ cost_{real}  = cost_{exp} + cN, c\in \mathbb{R}$.
+		
+		The cost matrix was computed from the hole positions (random or not) using Manhattan distance
 	
-	Tested 3,4,5 instance for each n and $\ldots$
-	\begin{table}[H]
-		\centering
-		\begin{tabular}{c|c|c}
-			\textbf{$ n $} 	& \textbf{class1} & \textbf{class2}  \\ \hline
-			$ 5  $			& $ 0.15 $ 			& $  $ \\ \hline
-			$ 10  $			& $ 0.25 $ 			& $ $ \\ \hline
-			$ 20  $			& $  $ 			& $  $ \\ \hline
-			$ 30  $			& $  $	 		& $  $ \\ \hline
-			$ 50  $			& $  $	 		& $  $ \\ \hline
-			$ 70  $			& $  $	 		& $  $ \\ \hline
-			$ 100 $			& $  $	 		& $  $ \\ \hline
-			$ 150 $			& $  $	 		& $  $ \\ \hline
-			$ 200 $			& $  $ 			& $  $ \\ 
-		\end{tabular}
-		\caption{Average Time}
-		\label{table:times}
-	\end{table}
-	
-	Assuming a max time as 20 seconds.... we can solve for up to ?? nodes.
-	
-	Class 1 vs Class 2 $\ldots$
-	
-	Tested 3,4,5 instance for each n and $\ldots$
+		
+		\begin{table}[H]
+			\centering
+			\begin{tabular}{c|c|c}
+				\textbf{$ n $} 	& \textbf{class1} 	& \textbf{class2}  \\ \hline
+				$ 10  $			& $ 0.125 s $ 		& $ 0.131 s $ \\ \hline
+				$ 20  $			& $ 0.537 s $ 		& $ 0.449 s $ \\ \hline
+				$ 30  $			& $ 1.561 s $	 	& $ 1.580 s $ \\ \hline
+				$ 40  $			& $ 5.549 s $ 		& $ 6.303 s $ \\ \hline
+				$ 50  $			& $ 14.534 s $ 		& $ 13.757 s $ \\ \hline
+				$ 60 $			& $ 29.168 s $ 		& $ 26.621 s $ \\ \hline
+				$ 70 $			& $ 47.808 s $	 	& $ 48.775 s $ \\ \hline
+				$ 80 $			& $ 91.089 s $ 		& $ 105.980 s $ \\ \hline
+				$ 90 $			& $ 142.739 s $	 	& $ 199.926 s $ \\ \hline
+				$ 100 $			& $ 257.982 s $ 		& $ 292.470 s $ \\ 
+			\end{tabular}
+			\caption{Average Time}
+			\label{table:times}
+		\end{table}
+		
+		Assuming a max time as 20 seconds.... we can solve for up to ?? nodes.
+		
+		Class 1 vs Class 2 $\ldots$
+		
+		Tested 3,4,5 instance for each n and $\ldots$
 	\begin{table}[H]
 		\centering
 		\begin{tabular}{c|c|c}
