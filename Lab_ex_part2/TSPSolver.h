@@ -63,9 +63,63 @@ public:
       sol.sequence[idx1] = sol.sequence[idx2];
       sol.sequence[idx2] = tmp;
     }
-    // std::cout << "### "; sol.print(); std::cout << " ###" << std::endl;
+    std::cout << "### "; sol.print(); std::cout << " ###" << std::endl;
     return true;
   }
+  // heuristic init -> choose min from each row
+  bool initHeu1 (const TSP& tsp ,TSPSolution& sol ) 
+  {
+    std::cout << "B### "; sol.print(); std::cout << " ###" << std::endl;
+
+    for ( uint i = 1 ; i < sol.sequence.size()-1 ; ++i ) {
+      // intial and final position are fixed (initial/final node remains 0)
+      sol.sequence[i] = -1;
+    }
+
+    std::cout << "B### "; sol.print(); std::cout << " ###" << std::endl;
+
+
+    std::vector<int> visited;
+    int i = 0;
+    visited.push_back(0);
+    int prev=0;
+
+    while (visited.size() < tsp.n)
+    {
+      // sort as indices
+      
+      std::vector<int> V(tsp.n);
+      std::iota(V.begin(),V.end(),0); //Initializing
+      // sort(V.begin(),V.end(), [&](int a,int j){return tsp.cost[i][a]<tsp.cost[i][j];} );
+      // std::cout << " ###" << std::endl;
+      sort(V.begin(),V.end(), [&](int a,int j){return tsp.cost[prev][a]<tsp.cost[prev][j];} );
+
+      // std::cout << "prev: " << prev << " " << std::endl;
+      // for ( uint i = 0 ; i < V.size() ; ++i ) {
+      //   std::cout << V[i] << " ";
+      // }
+      // std::cout << " ###" << std::endl;
+
+      for (uint b = 1; b < V.size(); b++){ // exclude actual min because it is 0
+        // std::cout << "i = " << i << ", index: " << V[b] << std::endl;
+        int temp = V[b];
+        if (!std::count(visited.begin(), visited.end(), temp))
+        {
+          sol.sequence[i+1] = temp;
+          visited.push_back(temp);
+          prev = temp;
+          i++;
+          // std::cout << "### "; sol.print(); std::cout << " ###" << std::endl;
+
+          break;
+        }
+      }
+    }
+    std::cout << "### "; sol.print(); std::cout << " ###" << std::endl;
+    return true;
+  }
+
+
 
   bool solve ( const TSP& tsp , const TSPSolution& initSol , int tabulength , int maxIter , TSPSolution& bestSol ); /// TS: new parameters
 protected:
