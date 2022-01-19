@@ -4,8 +4,10 @@ if [ $1 -gt 70 ]
 then
     MAX=10
 fi
-echo 'N =' $1 >  Results/results$1.txt  # clean results file
+echo 'N =' $1 >  Results/results$1_class$2.txt  # clean results file
+mkdir SavedDists/n$1_class$2
 for ((i=0; i<$MAX; i++))
 do 
-    ./main rand $1 >> Results/results$1.txt
+    ./main rand SavedDists/n$1_class$2/$i.dat x $1 $2 >> Results/results$1_class$2.txt
 done
+#  usage: ./main filename.dat savedistsfile.dat [readDists] [Nrandom] [class]

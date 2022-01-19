@@ -183,6 +183,7 @@ int read(const char* filename, std::vector<std::vector<double>> & pos, std::vect
 	computeCost(n, pos, cost);
 	return n;
 }
+
 unsigned long superSeed()
 {	
 	unsigned long a = clock();
@@ -199,6 +200,7 @@ unsigned long superSeed()
 	c=c-a;  c=c-b;  c=c^(b >> 15);
 	return c;
 }
+
 void randomCost(const int n, std::vector<std::vector<double>> & pos, std::vector< std::vector<double> > & cost, const int classe)
 {
 	#if PRINT_ALL_TPSOLVER
@@ -281,26 +283,45 @@ int readDists(const char* filename, std::vector< std::vector<double> > & cost)
 	return n;
 }
 
+void saveDists(const char* filename, std::vector< std::vector<double> > & cost, const int n)
+{
+	ofstream out(filename);
+	// save size
+	out << n << "\n";
+	// save costs
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n-1; j++) {
+			out << cost[i][j] << "\t\t";
+		}
+		out << cost[i][n-1] << "\n";
+	}
+	out.close();
+	return;
+}
+
 int main (int argc, char const *argv[])
 {
 	try
 	{
 
-		if (argc < 2) throw std::runtime_error("usage: ./main filename.dat [readDists] [Nrandom] [class]");
+		if (argc < 3) throw std::runtime_error("usage: ./main filename.dat savedistsfile.dat [readDists] [Nrandom] [class]");
 		std::vector<std::vector<double>> cost;
 		std::vector<std::vector<double>> pos;
 		int N = 0;
 		int classe = 1;
-		if (argc == 4) {
-			N = atoi(argv[2]);
-			if (argc == 5) classe = atoi(argv[3]);
+		if (argc >= 5) {
+			N = atoi(argv[4]);
+			if (argc == 6) classe = atoi(argv[5]);
 			randomCost(N,pos,cost,classe);
+			saveDists(argv[2], cost, N);
 		}
-		else if (argc == 3){
+		else if (argc == 4){
 			N = readDists(argv[1], cost);
 		}		
-		else N = read(argv[1],pos,cost);
-
+		else {
+			N = read(argv[1],pos,cost);
+			saveDists(argv[2], cost, N);
+		}
 
 		// init
 		DECL_ENV(env);
