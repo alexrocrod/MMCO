@@ -20,13 +20,13 @@ int main (int argc, char const *argv[])
 {
   try
   {
-    if (argc < 4 ) throw std::runtime_error("usage: ./main filename.dat tabulength maxiter [readPos] [Nrandom]");  /// new parameters for TS
+    if (argc < 4 ) throw std::runtime_error("usage: ./main filename.dat tabulength maxiter [readPos] [Nrandom] [initHeu]");  /// new parameters for TS
     int tabuLength = atoi(argv[2]);                                                           /// new parameters for TS
     int maxIter    = atoi(argv[3]);                                                           /// new parameters for TS
     TSP tspInstance; 
     if (argc == 5)
       tspInstance.readPos(argv[1]);
-    else if (argc == 6)
+    else if (argc >= 6)
 		{
 			int N = atoi(argv[5]);
 			tspInstance.randomCost(N);
@@ -44,8 +44,9 @@ int main (int argc, char const *argv[])
 
     
     TSPSolver tspSolver;
-    // tspSolver.initRnd(aSolution);
-    tspSolver.initHeu1(tspInstance,aSolution);
+    if (argc == 7) tspSolver.initHeu1(tspInstance,aSolution);
+    else tspSolver.initRnd(aSolution);
+    // 
 
     TSPSolution bestSolution(tspInstance);
     tspSolver.solve(tspInstance,aSolution, tabuLength/*new*/ , maxIter/*new*/ ,bestSolution); /// new parameters for TS

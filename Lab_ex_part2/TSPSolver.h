@@ -63,20 +63,20 @@ public:
       sol.sequence[idx1] = sol.sequence[idx2];
       sol.sequence[idx2] = tmp;
     }
-    std::cout << "### "; sol.print(); std::cout << " ###" << std::endl;
+    // std::cout << "### "; sol.print(); std::cout << " ###" << std::endl;
     return true;
   }
   // heuristic init -> choose min from each row
   bool initHeu1 (const TSP& tsp ,TSPSolution& sol ) 
   {
-    std::cout << "B### "; sol.print(); std::cout << " ###" << std::endl;
+    // std::cout << "B### "; sol.print(); std::cout << " ###" << std::endl;
 
     for ( uint i = 1 ; i < sol.sequence.size()-1 ; ++i ) {
       // intial and final position are fixed (initial/final node remains 0)
       sol.sequence[i] = -1;
     }
 
-    std::cout << "B### "; sol.print(); std::cout << " ###" << std::endl;
+    // std::cout << "B### "; sol.print(); std::cout << " ###" << std::endl;
 
 
     std::vector<int> visited;
@@ -115,7 +115,7 @@ public:
         }
       }
     }
-    std::cout << "### "; sol.print(); std::cout << " ###" << std::endl;
+    // std::cout << "### "; sol.print(); std::cout << " ###" << std::endl;
     return true;
   }
 
