@@ -139,15 +139,16 @@ void setupLP(CEnv env, Prob lp, const int N, const std::vector<std::vector<doubl
 	CHECKED_CPX_CALL( CPXwriteprob, env, lp, "ex1.lp", NULL );
 }
 
+#define PRINT_ALL_TPSOLVER 0 // print all info for debug and to understand evolution
+
+
 void computeCost(const int n, const std::vector<std::vector<double>> & pos, std::vector< std::vector<double>> & cost)
 {
 	// compute costs
 	cost.resize(n);
-	for (int i = 0; i < n; i++) 
-	{
+	for (int i = 0; i < n; i++) {
 		cost[i].reserve(n);
-		for (int j = 0; j < n; j++) 
-		{
+		for (int j = 0; j < n; j++) {
 			double c = abs(pos[i][0]-pos[j][0]) + abs(pos[i][1]-pos[j][1]); // Manhatan distance
 			// double c = sqrt(pow((pos[i][0]-pos[j][0]),2) + pow((pos[i][1]-pos[j][1]),2)); // Euclidean distance
 			// std::cout << "(" << i << "," << j << ") -> " << c << std::endl;
@@ -163,14 +164,14 @@ int read(const char* filename, std::vector<std::vector<double>> & pos, std::vect
 	std::ifstream in(filename);
 	// read size
 	in >> n;
-	std::cout << "number of nodes n = " << n << std::endl;
+	#if PRINT_ALL_TPSOLVER
+            std::cout << "(Pos) number of nodes n = " << n << std::endl;
+    #endif
 	// read positions
 	pos.resize(n);
-	for (int i = 0; i < n; i++) 
-	{
+	for (int i = 0; i < n; i++) {
 		pos[i].reserve(2);
-		for (int j = 0; j < 2; j++) 
-		{
+		for (int j = 0; j < 2; j++) {
 			double c;
 			in >> c;
 			pos[i].push_back(c);
@@ -198,22 +199,25 @@ unsigned long superSeed()
 	c=c-a;  c=c-b;  c=c^(b >> 15);
 	return c;
 }
-void randomCost(const int n, std::vector<std::vector<double>> & pos, std::vector< std::vector<double> > & cost)
+void randomCost(const int n, std::vector<std::vector<double>> & pos, std::vector< std::vector<double> > & cost, const int classe)
 {
-	// std::cout << "number of random nodes n = " << n << std::endl;
+	#if PRINT_ALL_TPSOLVER
+            std::cout << "(Random class " << classe << " ) number of nodes n = " << n << std::endl;
+    #endif
 	std::vector<int> v1(n) ; // vector with N ints.
 	std::iota (std::begin(v1), std::end(v1), 0); // Fill with 0, 1, ..., N.
 	std::vector<std::vector<double>> allPos;
 	
-	// Random but from 0 to N-1
-	allPos.resize(n*n);
-	int msize = n;
-	int min = 0;
-
 	// Random but from 1 to N-2
-	// allPos.resize((n-2)*(n-2));
-	// int msize = n - 1;
-	// int min = 1;
+	allPos.resize((n-2)*(n-2));
+	int msize = n - 1;
+	int min = 1;
+
+	if (classe == 1) { // Random from 0 to N-1
+		allPos.resize(n*n);
+		msize = n;
+		min = 0;
+	}
 
     // Nested loop for all possible pairs
 	int a = 0;
@@ -229,19 +233,21 @@ void randomCost(const int n, std::vector<std::vector<double>> & pos, std::vector
 		
     }
 
-	// for (int i = 0; i < n*n; i++) {
-    //     std::cout << "(" << allPos[i][0] << "," << allPos[i][1] << ")\n"; 
-    // }
-	// std::cout << "All pairs done\n";
+	#if PRINT_ALL_TPSOLVER
+		for (int i = 0; i < n*n; i++) {
+			std::cout << "(" << allPos[i][0] << "," << allPos[i][1] << ")\n"; 
+		}
+		std::cout << "All pairs done\n";
+	#endif
 
     std::srand(superSeed());
-	// std::srand(std::time(0));
 	std::random_shuffle(allPos.begin(),allPos.end()); // shuffle all pairs
 
 	pos.resize(n);
-	for (int i = 0; i < n; i++) 
-	{
-        // std::cout << "(" << allPos[i][0] << "," << allPos[i][1] << ")\n";
+	for (int i = 0; i < n; i++) {
+		#if PRINT_ALL_TPSOLVER
+                std::cout << "(" << allPos[i][0] << "," << allPos[i][1] << ")\n";
+            #endif
 		pos[i].resize(2);
 		pos[i][0] = allPos[i][0];
 		pos[i][1] = allPos[i][1]; // save postions as the first N from the N*N pairs
@@ -252,20 +258,47 @@ void randomCost(const int n, std::vector<std::vector<double>> & pos, std::vector
 	return;
 }
 
+int readDists(const char* filename, std::vector< std::vector<double> > & cost)
+{
+	std::ifstream in(filename);
+	int n = 0;
+	// read size
+	in >> n;
+	#if PRINT_ALL_TPSOLVER
+		std::cout << "(Dists) number of nodes n = " << n << std::endl;
+	#endif
+	// read costs
+	cost.resize(n);
+	for (int i = 0; i < n; i++) {
+		cost[i].reserve(n);
+		for (int j = 0; j < n; j++) {
+			double c;
+			in >> c;
+			cost[i].push_back(c);
+		}
+	}
+	in.close();
+	return n;
+}
+
 int main (int argc, char const *argv[])
 {
 	try
 	{
 
-		if (argc < 2) throw std::runtime_error("usage: ./main filename.dat [Nrandom]");
+		if (argc < 2) throw std::runtime_error("usage: ./main filename.dat [readDists] [Nrandom] [class]");
 		std::vector<std::vector<double>> cost;
 		std::vector<std::vector<double>> pos;
 		int N = 0;
-		if (argc == 3)
-		{
+		int classe = 1;
+		if (argc == 4) {
 			N = atoi(argv[2]);
-			randomCost(N,pos,cost);
-		}	
+			if (argc == 5) classe = atoi(argv[3]);
+			randomCost(N,pos,cost,classe);
+		}
+		else if (argc == 3){
+			N = readDists(argv[1], cost);
+		}		
 		else N = read(argv[1],pos,cost);
 
 
