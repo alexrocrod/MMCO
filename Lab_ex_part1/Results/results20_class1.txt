@@ -1,0 +1,36 @@
+Time: 0.44 s
+Objval: 98
+Time: 0.28 s
+Objval: 102
+Time: 0.38 s
+Objval: 94
+Time: 0.399 s
+Objval: 86
+Time: 0.463 s
+Objval: 108
+Time: 0.368 s
+Objval: 106
+Time: 0.392 s
+Objval: 96
+Time: 0.375 s
+Objval: 100
+Time: 0.554 s
+Objval: 88
+Time: 0.494 s
+Objval: 96
+Time: 0.35 s
+Objval: 108
+Time: 0.372 s
+Objval: 96
+Time: 0.361 s
+Objval: 104
+Time: 0.36 s
+Objval: 98
+Time: 0.823 s
+Objval: 108
+Time: 0.351 s
+Objval: 98
+Time: 0.378 s
+Objval: 118
+Time: 0.422 s
+Objval: 114
