@@ -20,7 +20,7 @@ do
     for ((i=0; i<$MAX; i++))
     do 
         printf '%d, ' $i;
-        ./main SavedDists/n$1_class1/$i.dat $TABU $MAXIT 1 >> Results$j/results$1_class1_init1.txt
+        ./main SavedDists/n$1_class1/$i.dat $TABU $MAXIT 0 >> Results$j/results$1_class1_init1.txt
     done
     printf '\n';
 
@@ -28,25 +28,25 @@ do
     for ((i=0; i<$MAX; i++))
     do 
         printf '%d, ' $i;
-        ./main SavedDists/n$1_class2/$i.dat $TABU $MAXIT 1 >> Results$j/results$1_class2_init1.txt
+        ./main SavedDists/n$1_class2/$i.dat $TABU $MAXIT 0 >> Results$j/results$1_class2_init1.txt
     done
     printf '\n';
 
-    echo 'N =' $1 >  Results$j/results$1_class1_init2.txt  # clean results file
-    for ((i=0; i<$MAX; i++))
-    do 
-        printf '%d, ' $i;
-        ./main SavedDists/n$1_class1/$i.dat $TABU $MAXIT 2 >> Results$j/results$1_class1_init2.txt
-    done
-    printf '\n';
+    # echo 'N =' $1 >  Results$j/results$1_class1_init2.txt  # clean results file
+    # for ((i=0; i<$MAX; i++))
+    # do 
+    #     printf '%d, ' $i;
+    #     ./main SavedDists/n$1_class1/$i.dat $TABU $MAXIT 2 >> Results$j/results$1_class1_init2.txt
+    # done
+    # printf '\n';
 
-    echo 'N =' $1 >  Results$j/results$1_class2_init2.txt  # clean results file
-    for ((i=0; i<$MAX; i++))
-    do 
-        printf '%d, ' $i;
-        ./main SavedDists/n$1_class2/$i.dat $TABU $MAXIT 2 >> Results$j/results$1_class2_init2.txt
-    done
-    printf '\n';
+    # echo 'N =' $1 >  Results$j/results$1_class2_init2.txt  # clean results file
+    # for ((i=0; i<$MAX; i++))
+    # do 
+    #     printf '%d, ' $i;
+    #     ./main SavedDists/n$1_class2/$i.dat $TABU $MAXIT 2 >> Results$j/results$1_class2_init2.txt
+    # done
+    # printf '\n';
 done
 
 #  usage: ./main filename.dat tabulength maxiter [init] [readPos] [Nrandom] [class] 
