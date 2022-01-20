@@ -1,0 +1,61 @@
+N = 10
+Time: 0.118 s
+Objval: 36
+Time: 0.087 s
+Objval: 36
+Time: 0.124 s
+Objval: 36
+Time: 0.153 s
+Objval: 36
+Time: 0.096 s
+Objval: 36
+Time: 0.176 s
+Objval: 44
+Time: 0.106 s
+Objval: 38
+Time: 0.161 s
+Objval: 36
+Time: 0.111 s
+Objval: 42
+Time: 0.119 s
+Objval: 42
+Time: 0.125 s
+Objval: 40
+Time: 0.137 s
+Objval: 32
+Time: 0.101 s
+Objval: 38
+Time: 0.111 s
+Objval: 30
+Time: 0.147 s
+Objval: 38
+Time: 0.109 s
+Objval: 40
+Time: 0.087 s
+Objval: 34
+Time: 0.1 s
+Objval: 38
+Time: 0.093 s
+Objval: 50
+Time: 0.091 s
+Objval: 40
+Time: 0.138 s
+Objval: 38
+Time: 0.103 s
+Objval: 48
+Time: 0.15 s
+Objval: 30
+Time: 0.127 s
+Objval: 34
+Time: 0.107 s
+Objval: 34
+Time: 0.11 s
+Objval: 36
+Time: 0.101 s
+Objval: 36
+Time: 0.143 s
+Objval: 50
+Time: 0.164 s
+Objval: 30
+Time: 0.155 s
+Objval: 44

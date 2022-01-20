@@ -1,0 +1,29 @@
+N = 30
+Time: 1.29 s
+Objval: 158
+Time: 0.924 s
+Objval: 176
+Time: 1.038 s
+Objval: 174
+Time: 1.678 s
+Objval: 174
+Time: 0.835 s
+Objval: 162
+Time: 1.138 s
+Objval: 184
+Time: 1.39 s
+Objval: 152
+Time: 1.445 s
+Objval: 196
+Time: 1.092 s
+Objval: 170
+Time: 1.53 s
+Objval: 162
+Time: 1.025 s
+Objval: 190
+Time: 1.042 s
+Objval: 168
+Time: 1.648 s
+Objval: 198
+Time: 1.013 s
+Objval: 180
