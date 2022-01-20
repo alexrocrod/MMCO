@@ -19,3 +19,43 @@ Time: 19.844 s
 Objval: 448
 Time: 34.35 s
 Objval: 524
+Time: 20.739 s
+Objval: 442
+Time: 24.839 s
+Objval: 494
+Time: 39.015 s
+Objval: 496
+Time: 17.965 s
+Objval: 484
+Time: 28.818 s
+Objval: 500
+Time: 23.341 s
+Objval: 466
+Time: 33.561 s
+Objval: 466
+Time: 28.797 s
+Objval: 492
+Time: 25.102 s
+Objval: 448
+Time: 37.779 s
+Objval: 470
+Time: 22.397 s
+Objval: 482
+Time: 33.802 s
+Objval: 432
+Time: 44.209 s
+Objval: 496
+Time: 25.444 s
+Objval: 486
+Time: 20.986 s
+Objval: 422
+Time: 23.429 s
+Objval: 424
+Time: 24.536 s
+Objval: 474
+Time: 30.181 s
+Objval: 532
+Time: 47.821 s
+Objval: 498
+Time: 26.245 s
+Objval: 514
