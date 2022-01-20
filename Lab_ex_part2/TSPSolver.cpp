@@ -36,7 +36,9 @@ bool TSPSolver::solve ( const TSP& tsp , const TSPSolution& initSol , int tabule
             double bestNeighValue = currValue + findBestNeighbor(tsp,currSol,iter,aspiration,move);             //**// TSAC: aspiration
             
             if ( bestNeighValue >= tsp.infinite ) {       /// TS: stop because all neighbours are tabu
-                std::cout << "\tmove: NO legal neighbour" << std::endl; 
+                #if PRINT_ALL_TPSOLVER
+                    std::cout << "\tmove: NO legal neighbour" << std::endl; 
+                #endif
                 stop = true;                                
                 continue;                                  
             }                                             
