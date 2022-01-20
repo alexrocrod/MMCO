@@ -1,0 +1,61 @@
+N = 60
+Time: 28.933 s
+Objval: 490
+Time: 34.422 s
+Objval: 484
+Time: 22.672 s
+Objval: 512
+Time: 35.322 s
+Objval: 482
+Time: 23.653 s
+Objval: 460
+Time: 50.623 s
+Objval: 472
+Time: 39.967 s
+Objval: 476
+Time: 42.879 s
+Objval: 522
+Time: 26.09 s
+Objval: 510
+Time: 28.93 s
+Objval: 556
+Time: 23.229 s
+Objval: 504
+Time: 13.643 s
+Objval: 424
+Time: 21.575 s
+Objval: 466
+Time: 24.692 s
+Objval: 508
+Time: 43.297 s
+Objval: 490
+Time: 23.807 s
+Objval: 480
+Time: 21.996 s
+Objval: 452
+Time: 32.058 s
+Objval: 466
+Time: 30.288 s
+Objval: 484
+Time: 27.15 s
+Objval: 502
+Time: 14.583 s
+Objval: 536
+Time: 20.015 s
+Objval: 488
+Time: 35.841 s
+Objval: 550
+Time: 34.327 s
+Objval: 516
+Time: 22.061 s
+Objval: 462
+Time: 25.141 s
+Objval: 540
+Time: 28.578 s
+Objval: 496
+Time: 29.164 s
+Objval: 500
+Time: 25.21 s
+Objval: 498
+Time: 27.343 s
+Objval: 442
