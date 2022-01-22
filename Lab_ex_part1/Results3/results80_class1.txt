@@ -1,0 +1,21 @@
+N = 80
+Time: 155.277 s
+Objval: 738
+Time: 101.637 s
+Objval: 744
+Time: 74.914 s
+Objval: 698
+Time: 68.675 s
+Objval: 782
+Time: 59.161 s
+Objval: 778
+Time: 67.366 s
+Objval: 758
+Time: 67.348 s
+Objval: 762
+Time: 139.711 s
+Objval: 754
+Time: 91.638 s
+Objval: 698
+Time: 89.093 s
+Objval: 728
