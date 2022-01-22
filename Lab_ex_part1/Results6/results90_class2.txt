@@ -1,1 +1,21 @@
 N = 90
+Time: 876.055 s
+Objval: 816
+Time: 299.676 s
+Objval: 828
+Time: 374.348 s
+Objval: 810
+Time: 261.79 s
+Objval: 802
+Time: 425.543 s
+Objval: 800
+Time: 434.522 s
+Objval: 830
+Time: 589.971 s
+Objval: 856
+Time: 275.756 s
+Objval: 788
+Time: 224.529 s
+Objval: 812
+Time: 407.893 s
+Objval: 812

@@ -1,1 +1,21 @@
 N = 100
+Time: 2227.24 s
+Objval: 962
+Time: 790.929 s
+Objval: 1000
+Time: 364.071 s
+Objval: 926
+Time: 859.153 s
+Objval: 1002
+Time: 736.071 s
+Objval: 914
+Time: 467.213 s
+Objval: 978
+Time: 928.658 s
+Objval: 962
+Time: 2976.84 s
+Objval: 1016
+Time: 738.059 s
+Objval: 1030
+Time: 1437.73 s
+Objval: 976

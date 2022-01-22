@@ -1,1 +1,19 @@
 N = 100
+Time: 1106.99 s
+Objval: 966
+Time: 549.65 s
+Objval: 940
+Time: 633.675 s
+Objval: 920
+Time: 1065.94 s
+Objval: 972
+Time: 332.797 s
+Objval: 906
+Time: 697.713 s
+Objval: 966
+Time: 2261.71 s
+Objval: 988
+Time: 1580.38 s
+Objval: 944
+Time: 2571.97 s
+Objval: 970
