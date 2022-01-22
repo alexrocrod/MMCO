@@ -120,18 +120,35 @@ void setupLP(CEnv env, Prob lp, const int N, const std::vector<std::vector<doubl
 	// add constraints [ forall k in N, k != 0, sum(i,k) x_ik - sum(k,j) x_kj = 1, j!=0]
 	for (int k = 1; k < N; k++)
 	{
-		std::vector<int> idx(2*N);
-		std::vector<double> coef(2*N, 1.0);
+		std::vector<int> idx(2*N-3);
+		std::vector<double> coef(2*N-3, 0);
 		char sense = 'E';
-		for (int i = 0; i < N; i++)
+		int a = 0;
+		for (int i = 0; i < k; i++)
 		{
-			idx[i] = i*(N-1) + k-1; // corresponds to variable x_ik
+			idx[a] = i*(N-1) + k-1; // corresponds to variable x_ik
+			coef[a] = 1; 
+			a++;
 		}
-		for (int j = 0; j < N; j++)
+		for (int i = k + 1; i < N; i++)
 		{
-			idx[N+j] = k*(N-1) + j; // corresponds to variable x_kj
-			coef[N+j] = -1; 
+			idx[a] = i*(N-1) + k-1; // corresponds to variable x_ik
+			coef[a] = 1; 
+			a++;
 		}
+		for (int j = 1; j < k; j++)
+		{
+			idx[a] = k*(N-1) + j-1; // corresponds to variable x_kj
+			coef[a] = -1; 
+			a++;
+		}
+		for (int j = k+1; j < N; j++)
+		{
+			idx[a] = k*(N-1) + j-1; // corresponds to variable x_kj
+			coef[a] = -1; 
+			a++;
+		}
+		// std::cout << "a=" << a << std::endl;  
 		int matbeg = 0;
 		double rhs = 1;
 		CHECKED_CPX_CALL( CPXaddrows, env, lp, 0     , 1     , idx.size(), &rhs, &sense, &matbeg, &idx[0], &coef[0], NULL      , NULL      );
