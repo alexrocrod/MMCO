@@ -99,7 +99,7 @@
 			
 			
 			
-		\subsection{part2}
+		\subsection{Part 2}
 
 			I started from the TSAC implementation from the Labs.
 			I implemented the same initialization methods from part1.
@@ -110,6 +110,7 @@
 			
 			Additional Heuristic initialization:
 				Iterate the cost matrix and find the minimum value in each row, excluding the already visited nodes.
+				Sames as slide 24 on m08
 						
 	
 	\section{Results}
@@ -213,8 +214,8 @@
 			$ 60  $			& $ 461.93 $ 	& $ 2418.6 $ 			& $ 482.73 $  	& $ 570.4 $ 		& $ 479.267 $ \\ \hline
 			$ 70 $			& $ 578.93 $ 	& $ 3264.13 $ 			& $ 607.93 $  	& $ 732.73 $ 		& $ 599.6 $ \\ \hline
 			$ 80 $			& $ 703.4 $ 	& $ 4343.2 $ 			& $ 739.6 $  	& $ 869.6 $ 		& $ 724.2 $ \\ \hline
-			$ 90 $			& $  $ 		& $ 5476.8 $ 			& $ 888.2 $  	& $ 1052.2 $ 		& $ 869 $ \\ \hline
-			$ 100 $			& $  $ 		& $ 6670.2 $ 			& $ 1042 $  	& $ 1228.2 $ 		& $ 1013.4 $ \\
+			$ 90 $			& $ 833.6 $ 	& $ 5476.8 $ 			& $ 888.2 $  	& $ 1052.2 $ 		& $ 869 $ \\ \hline
+			$ 100 $			& $ 976.6 $ 	& $ 6670.2 $ 			& $ 1042 $  	& $ 1228.2 $ 		& $ 1013.4 $ \\
 		\end{tabular}
 		\caption{Solutions for class1}
 		\label{table:sols}
@@ -225,21 +226,22 @@
 		\begin{tabular}{c|c|c|c|c|c}
 			\textbf{$ n $} 	& \textbf{exact} & \textbf{initial1}   & \textbf{final1}& \textbf{initial2} & \textbf{final2} 	\\ \hline
 			$ 10  $			& $ 28.533 $ 	& $ 52.333 $ 			& $ 28.533 $  	& $ 32 $ 			& $ 28.533 $		\\ \hline
-			$ 20  $			& $ 84.467 $ 		& $ 233.13 $ 			& $ 84.733 $  	& $ 98 $ 			& $ 84.6$		\\ \hline
+			$ 20  $			& $ 84.467 $ 	& $ 233.13 $ 			& $ 84.733 $  	& $ 98 $ 			& $ 84.6$		\\ \hline
 			$ 30  $			& $ 160.933 $ 	& $ 562.73 $ 			& $ 164.4 $  	& $ 197.53 $ 		& $ 163.067 $ \\ \hline
 			$ 40  $			& $ 243.4 $ 	& $ 1040.4 $ 			& $ 252.53 $  	& $ 289.33 $ 		& $ 248.8 $ \\ \hline
-			$ 50  $			& $ 339.73 $ 		& $ 1583.53 $ 			& $ 350.2 $  	& $ 412.4 $ 		& $ 346.53 $ \\ \hline
-			$ 60  $			& $ 445 $ 	& $ 2356.67 $ 			& $ 466.2 $  	& $ 527.93 $ 		& $ 458.267 $ \\ \hline
+			$ 50  $			& $ 339.73 $ 	& $ 1583.53 $ 			& $ 350.2 $  	& $ 412.4 $ 		& $ 346.53 $ \\ \hline
+			$ 60  $			& $ 445 $ 		& $ 2356.67 $ 			& $ 466.2 $  	& $ 527.93 $ 		& $ 458.267 $ \\ \hline
 			$ 70 $			& $ 560.13 $ 	& $ 3203.8 $ 			& $ 593.6 $  	& $ 898.867 $ 		& $ 582.4 $ \\ \hline
 			$ 80 $			& $ 687.6 $ 	& $ 4163.4 $ 			& $ 730 $  		& $ 859.8 $ 		& $ 711.2 $ \\ \hline
-			$ 90 $			& $  $ 		& $ 5358.4 $ 			& $ 845.4 $  	& $ 1016 $ 			& $ 845 $ \\ \hline
-			$ 100 $			& $  $ 	& $ 6665 $ 				& $ 1022 $  	& $ 1172.2 $ 		& $ 988$ \\
+			$ 90 $			& $ 815.4 $ 	& $ 5358.4 $ 			& $ 845.4 $  	& $ 1016 $ 			& $ 845 $ \\ \hline
+			$ 100 $			& $ 951.8 $ 	& $ 6665 $ 				& $ 1022 $  	& $ 1172.2 $ 		& $ 988$ \\
 		\end{tabular}
 		\caption{Solutions for class2}
 		\label{table:sols2}
 	\end{table}
 
 	The initialization using the min each row heuristic is clearly a better approximation to the optimal solution.
+	Although theoretically there is no guarantee that starting from a better solution gets us a better final solution, this was mostly the case for this implementation.
 	
 	We can although notice a tendency to worse solutions when we increase n.
 	
@@ -252,6 +254,9 @@
 	Computational time should ideally be approximately the ones showed here.
 	
 	\section{Conclusions}
+	
+		The TSAC method is very fast and can get almost optimal solutions for small n.
+		For large n the cplex is very slow but can be the better option if we want to reduce the drilling time as much as possible.
 	
 	
 \end{document}
