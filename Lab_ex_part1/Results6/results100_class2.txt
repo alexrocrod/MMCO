@@ -17,3 +17,5 @@ Time: 1580.38 s
 Objval: 944
 Time: 2571.97 s
 Objval: 970
+Time: 1523.72 s
+Objval: 946
