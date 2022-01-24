@@ -1,5 +1,6 @@
-# script to run 30 times and save in results.txt
-# $1 -> tabu length
+# script to run the 30 saved instances and save results in results.txt
+# usage: ./runOldRandom.sh N
+
 TABU=6
 if [ $1 -gt 49 ]
 then
@@ -16,6 +17,8 @@ fi
 for ((j=0; j<5; j++))
 do
     # mkdir Results$j
+    
+    # class 1 with random initial solution
     echo 'N =' $1 >  Results$j/results$1_class1_init1.txt  # clean results file
     for ((i=0; i<$MAX; i++))
     do 
@@ -24,6 +27,7 @@ do
     done
     printf '\n';
 
+    # class 2 with random initial solution
     echo 'N =' $1 >  Results$j/results$1_class2_init1.txt  # clean results file
     for ((i=0; i<$MAX; i++))
     do 
@@ -32,21 +36,23 @@ do
     done
     printf '\n';
 
-    # echo 'N =' $1 >  Results$j/results$1_class1_init2.txt  # clean results file
-    # for ((i=0; i<$MAX; i++))
-    # do 
-    #     printf '%d, ' $i;
-    #     ./main SavedDists/n$1_class1/$i.dat $TABU $MAXIT 2 >> Results$j/results$1_class1_init2.txt
-    # done
-    # printf '\n';
+    # class 1 with heuristic initial solution
+    echo 'N =' $1 >  Results$j/results$1_class1_init2.txt  # clean results file
+    for ((i=0; i<$MAX; i++))
+    do 
+        printf '%d, ' $i;
+        ./main SavedDists/n$1_class1/$i.dat $TABU $MAXIT 2 >> Results$j/results$1_class1_init2.txt
+    done
+    printf '\n';
 
-    # echo 'N =' $1 >  Results$j/results$1_class2_init2.txt  # clean results file
-    # for ((i=0; i<$MAX; i++))
-    # do 
-    #     printf '%d, ' $i;
-    #     ./main SavedDists/n$1_class2/$i.dat $TABU $MAXIT 2 >> Results$j/results$1_class2_init2.txt
-    # done
-    # printf '\n';
+    # class 2 with heuristic initial solution
+    echo 'N =' $1 >  Results$j/results$1_class2_init2.txt  # clean results file
+    for ((i=0; i<$MAX; i++))
+    do 
+        printf '%d, ' $i;
+        ./main SavedDists/n$1_class2/$i.dat $TABU $MAXIT 2 >> Results$j/results$1_class2_init2.txt
+    done
+    printf '\n';
 done
 
 #  usage: ./main filename.dat tabulength maxiter [init] [readPos] [Nrandom] [class] 

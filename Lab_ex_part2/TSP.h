@@ -25,14 +25,17 @@ public:
     std::vector< std::vector<double> > cost;
     double infinite; // infinite value (an upper bound on the value of any feasible solution)
 
-    void read(const char* filename)
+    void read(const char* filename) // read cost matrix from file
     {
         std::ifstream in(filename);
+
         // read size
         in >> n;
+
         #if PRINT_ALL_TPSOLVER
             std::cout << "(Dists) number of nodes n = " << n << std::endl;
         #endif
+
         // read costs
         cost.resize(n);
         for (int i = 0; i < n; i++) {
@@ -44,9 +47,11 @@ public:
             }
         }
         in.close();
+
+        setInfinite();
     }
-    void setInfinite(){
-        // set infinite value
+
+    void setInfinite(){ // set infinite value
         infinite = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
@@ -56,14 +61,17 @@ public:
         infinite *= 2;
     }
 
-    void readPos(const char* filename)
+    void readPos(const char* filename) // read positions from file
     {
         std::ifstream in(filename);
+
         // read size
         in >> n;
+
         #if PRINT_ALL_TPSOLVER
             std::cout << "(Pos) number of nodes n = " << n << std::endl;
         #endif
+
         // read positions
         std::vector<std::vector<double>> pos;
         pos.resize(n);
@@ -81,22 +89,22 @@ public:
         computeCost(pos);
         return;
     }
-    void computeCost(const std::vector<std::vector<double>> & pos)
+
+    void computeCost(const std::vector<std::vector<double>> & pos) // compute costs from positions
     {
-        // compute costs
         cost.resize(n);
         for (int i = 0; i < n; i++) {
             cost[i].reserve(n);
             for (int j = 0; j < n; j++) {
                 double c = abs(pos[i][0]-pos[j][0]) + abs(pos[i][1]-pos[j][1]); // Manhatan distance
-                // double c = sqrt(pow((pos[i][0]-pos[j][0]),2) + pow((pos[i][1]-pos[j][1]),2)); // Euclidean distance
-                // std::cout << "(" << i << "," << j << ") -> " << c << std::endl;
                 cost[i].push_back(c);
             }
         }
         setInfinite();
         return;
     }
+
+    // better seed for srand() using a mix function
     unsigned long superSeed()
     {	
         unsigned long a = clock();
@@ -113,7 +121,8 @@ public:
         c=c-a;  c=c-b;  c=c^(b >> 15);
         return c;
     }
-    void randomCost(const int N, const int classe)
+
+    void randomCost(const int N, const int classe) // random positions generations
     {
         n = N;
         #if PRINT_ALL_TPSOLVER
@@ -127,13 +136,13 @@ public:
         // Random but from 1 to N-2
         allPos.resize((n-2)*(n-2));
         int msize = n - 1;
-        int min = 1;
+        int min = 1;	
 
         if (classe == 1) { // Random from 0 to N-1
             allPos.resize(n*n);
             msize = n;
             min = 0;
-        } 
+        }
 
         // Nested loop for all possible pairs
         int a = 0;
