@@ -36,6 +36,7 @@ public:
         return total;
     }
 
+    // better seed for srand() using a mix function
     unsigned long superSeed()
     {	
         unsigned long a = clock();
@@ -70,7 +71,7 @@ public:
 
         return true;
     }
-    // heuristic init -> choose min from each row
+    // heuristic initial solution -> choose min from each row
     bool initHeu1 (const TSP& tsp ,TSPSolution& sol ) 
     {
         // clean sequence
@@ -125,10 +126,10 @@ public:
 
 
 
-    bool solve(const TSP& tsp, const TSPSolution& initSol, int tabulength, int maxIter, TSPSolution& bestSol); /// TS: new parameters
+    bool solve(const TSP& tsp, const TSPSolution& initSol, int tabulength, int maxIter, TSPSolution& bestSol); 
 
 protected:
-    double findBestNeighbor(const TSP& tsp, const TSPSolution& currSol, int currIter, double aspiration, TSPMove& move);	//**// TSAC: use aspiration!
+    double findBestNeighbor(const TSP& tsp, const TSPSolution& currSol, int currIter, double aspiration, TSPMove& move);
     
     TSPSolution& swap(TSPSolution& tspSol, const TSPMove& move);
     

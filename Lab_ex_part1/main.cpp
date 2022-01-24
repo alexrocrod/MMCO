@@ -3,18 +3,12 @@
  * @brief initial model test for 10 holes with layout similar to the picture
  */
 
-// #include <cstdio>
-// #include <iostream>
 #include <vector>
-// #include <stdio.h>
-// #include <math.h>
-// #include <numeric>
 #include <fstream>
 #include <random>
 #include <algorithm>
-// #include <iterator>
-// #include <ctime>
 #include <unistd.h>
+
 #include "cpxmacro.h"
 #include "Timer.h"
 
@@ -33,6 +27,7 @@ void setupLP(CEnv env, Prob lp, const int N, const std::vector<std::vector<doubl
 {
 	std::vector<int> nameN(N) ; // vector with N ints.
 	std::iota (std::begin(nameN), std::end(nameN), 0); // Fill with 0, 1, ..., N.
+
 	// add x vars [in o.f.: sum{i,j} 0 x_ij + ...]
 	for (int i = 0; i < N; i++)
 	{
@@ -46,6 +41,7 @@ void setupLP(CEnv env, Prob lp, const int N, const std::vector<std::vector<doubl
 			CHECKED_CPX_CALL( CPXnewcols, env, lp, 1   , 0, &lb, &ub, &xtype, &xname );
 		}
 	}
+
 	// add y vars [in o.f.: ... + sum{ij} C_ij y_ij + ... ]
 	for (int i = 0; i < N; i++)
 	{
@@ -69,6 +65,7 @@ void setupLP(CEnv env, Prob lp, const int N, const std::vector<std::vector<doubl
 	//  0   1         N-1 N      #i*(N-1)+j-1#       (N-1)*N (N-1)*N+1  N*N 	N*N+1     #N*(N+i-1)+j#       2*N*N-N#
 	//
 	///////////////////////////////////////////////////////////
+
 	// add constraints [ forall j, sum{i} y_ij = 1 ]
 	for (int j = 0; j < N; j++)
 	{
@@ -83,6 +80,7 @@ void setupLP(CEnv env, Prob lp, const int N, const std::vector<std::vector<doubl
 		double rhs = 1;
 		CHECKED_CPX_CALL( CPXaddrows, env, lp, 0     , 1     , idx.size(), &rhs, &sense, &matbeg, &idx[0], &coef[0], NULL      , NULL      );
 	}
+
 	// add constraints [ forall i, sum{j} y_ij = 1 ]
 	for (int i = 0; i < N; i++)
 	{
@@ -97,6 +95,7 @@ void setupLP(CEnv env, Prob lp, const int N, const std::vector<std::vector<doubl
 		double rhs = 1;
 		CHECKED_CPX_CALL( CPXaddrows, env, lp, 0     , 1     , idx.size(), &rhs, &sense, &matbeg, &idx[0], &coef[0], NULL      , NULL      );
 	}
+
 	// add constraints [ forall (i,j) in A, j != 0, x_ij <= (N-1)y_ij ]
 	// add constraints [ forall (i,j) in A, j != 0, x_ij + (1-N)y_ij <= 0]
 	for (int i = 0; i < N; i++)
@@ -117,6 +116,7 @@ void setupLP(CEnv env, Prob lp, const int N, const std::vector<std::vector<doubl
 			CHECKED_CPX_CALL( CPXaddrows, env, lp, 0     , 1     , idx.size(), &rhs, &sense, &matbeg, &idx[0], &coef[0], NULL      , NULL      );	
 		}
 	}
+
 	// add constraints [ forall k in N, k != 0, sum(i,k) x_ik - sum(k,j) x_kj = 1, j!=0]
 	for (int k = 1; k < N; k++)
 	{
@@ -124,36 +124,25 @@ void setupLP(CEnv env, Prob lp, const int N, const std::vector<std::vector<doubl
 		std::vector<double> coef(2*N-3, 0);
 		char sense = 'E';
 		int a = 0;
-		for (int i = 0; i < k; i++)
+		for (int i = 0; i < N; i++)
 		{
+			if (i == k) continue; // exclude x_kk
 			idx[a] = i*(N-1) + k-1; // corresponds to variable x_ik
 			coef[a] = 1; 
 			a++;
 		}
-		for (int i = k + 1; i < N; i++)
+		for (int j = 1; j < N; j++)
 		{
-			idx[a] = i*(N-1) + k-1; // corresponds to variable x_ik
-			coef[a] = 1; 
-			a++;
-		}
-		for (int j = 1; j < k; j++)
-		{
+			if (j == k) continue; // exclude x_kk
 			idx[a] = k*(N-1) + j-1; // corresponds to variable x_kj
 			coef[a] = -1; 
 			a++;
 		}
-		for (int j = k+1; j < N; j++)
-		{
-			idx[a] = k*(N-1) + j-1; // corresponds to variable x_kj
-			coef[a] = -1; 
-			a++;
-		}
-		// std::cout << "a=" << a << std::endl;  
 		int matbeg = 0;
 		double rhs = 1;
-		CHECKED_CPX_CALL( CPXaddrows, env, lp, 0     , 1     , idx.size(), &rhs, &sense, &matbeg, &idx[0], &coef[0], NULL      , NULL      );
+		CHECKED_CPX_CALL(CPXaddrows, env, lp, 0, 1, idx.size(), &rhs, &sense, &matbeg, &idx[0], &coef[0], NULL, NULL);
 	}
-	CHECKED_CPX_CALL( CPXwriteprob, env, lp, "ex1.lp", NULL );
+	CHECKED_CPX_CALL(CPXwriteprob, env, lp, "ex1.lp", NULL);
 }
 
 #define PRINT_ALL_TPSOLVER 0 // print all info for debug and to understand evolution
@@ -167,8 +156,6 @@ void computeCost(const int n, const std::vector<std::vector<double>> & pos, std:
 		cost[i].reserve(n);
 		for (int j = 0; j < n; j++) {
 			double c = abs(pos[i][0]-pos[j][0]) + abs(pos[i][1]-pos[j][1]); // Manhatan distance
-			// double c = sqrt(pow((pos[i][0]-pos[j][0]),2) + pow((pos[i][1]-pos[j][1]),2)); // Euclidean distance
-			// std::cout << "(" << i << "," << j << ") -> " << c << std::endl;
 			cost[i].push_back(c);
 		}
 	}
@@ -179,11 +166,14 @@ int read(const char* filename, std::vector<std::vector<double>> & pos, std::vect
 {
 	int n = 0;
 	std::ifstream in(filename);
+
 	// read size
 	in >> n;
+
 	#if PRINT_ALL_TPSOLVER
             std::cout << "(Pos) number of nodes n = " << n << std::endl;
     #endif
+
 	// read positions
 	pos.resize(n);
 	for (int i = 0; i < n; i++) {
@@ -201,6 +191,7 @@ int read(const char* filename, std::vector<std::vector<double>> & pos, std::vect
 	return n;
 }
 
+// better seed for srand() using a mix function
 unsigned long superSeed()
 {	
 	unsigned long a = clock();
@@ -218,11 +209,13 @@ unsigned long superSeed()
 	return c;
 }
 
+// random cost matrix
 void randomCost(const int n, std::vector<std::vector<double>> & pos, std::vector< std::vector<double> > & cost, const int classe)
 {
 	#if PRINT_ALL_TPSOLVER
             std::cout << "(Random class " << classe << " ) number of nodes n = " << n << std::endl;
     #endif
+
 	std::vector<int> v1(n) ; // vector with N ints.
 	std::iota (std::begin(v1), std::end(v1), 0); // Fill with 0, 1, ..., N.
 	std::vector<std::vector<double>> allPos;
@@ -230,7 +223,7 @@ void randomCost(const int n, std::vector<std::vector<double>> & pos, std::vector
 	// Random but from 1 to N-2
 	allPos.resize((n-2)*(n-2));
 	int msize = n - 1;
-	int min = 1;
+	int min = 1;	
 
 	if (classe == 1) { // Random from 0 to N-1
 		allPos.resize(n*n);
@@ -238,7 +231,7 @@ void randomCost(const int n, std::vector<std::vector<double>> & pos, std::vector
 		min = 0;
 	}
 
-    // Nested loop for all possible pairs
+    // All possible positions
 	int a = 0;
     for (int i = min; i < msize; i++) 
 	{
@@ -269,7 +262,7 @@ void randomCost(const int n, std::vector<std::vector<double>> & pos, std::vector
             #endif
 		pos[i].resize(2);
 		pos[i][0] = allPos[i][0];
-		pos[i][1] = allPos[i][1]; // save postions as the first N from the N*N pairs
+		pos[i][1] = allPos[i][1]; // save the firts N postions from the N*N pairs
     }
 
 	// compute costs
@@ -277,15 +270,19 @@ void randomCost(const int n, std::vector<std::vector<double>> & pos, std::vector
 	return;
 }
 
+// read dat file with cost matrix
 int readDists(const char* filename, std::vector< std::vector<double> > & cost)
 {
 	std::ifstream in(filename);
 	int n = 0;
+
 	// read size
 	in >> n;
+
 	#if PRINT_ALL_TPSOLVER
 		std::cout << "(Dists) number of nodes n = " << n << std::endl;
 	#endif
+
 	// read costs
 	cost.resize(n);
 	for (int i = 0; i < n; i++) {
@@ -296,15 +293,19 @@ int readDists(const char* filename, std::vector< std::vector<double> > & cost)
 			cost[i].push_back(c);
 		}
 	}
+
 	in.close();
 	return n;
 }
 
+// save cost matrix to file 
 void saveDists(const char* filename, std::vector< std::vector<double> > & cost, const int n)
 {
 	ofstream out(filename);
+
 	// save size
 	out << n << "\n";
+
 	// save costs
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n-1; j++) {
@@ -312,6 +313,7 @@ void saveDists(const char* filename, std::vector< std::vector<double> > & cost, 
 		}
 		out << cost[i][n-1] << "\n";
 	}
+
 	out.close();
 	return;
 }
@@ -322,13 +324,15 @@ int main (int argc, char const *argv[])
 	{
 
 		if (argc < 3) throw std::runtime_error("usage: ./main filename.dat savedistsfile.dat [readDists] [Nrandom] [class]");
+
 		std::vector<std::vector<double>> cost;
 		std::vector<std::vector<double>> pos;
 		int N = 0;
 		int classe = 1;
+
 		if (argc >= 5) {
 			N = atoi(argv[4]);
-			if (argc == 6) classe = atoi(argv[5]);
+			if (argc == 6 && N > 3) classe = atoi(argv[5]); // class 2 only possible for 4x4 maps or larger
 			randomCost(N,pos,cost,classe);
 			saveDists(argv[2], cost, N);
 		}
@@ -343,31 +347,25 @@ int main (int argc, char const *argv[])
 		// init
 		DECL_ENV(env);
 		DECL_PROB(env, lp);
+
 		// setup LP
 		setupLP(env, lp, N, cost);
+
 		// optimize
-		using Log::Timer;
-		Timer t;
-		CHECKED_CPX_CALL(CPXmipopt, env, lp ); // SEG FAULT for n=5,6,7,8,9
-		std::cout << "Time: " << t.stop()/1000 << " s" << std::endl;
-		// std::cout << "Time: " << t.stop() << " s" << std::endl;
+		Log::Timer t;
+		CHECKED_CPX_CALL(CPXmipopt, env, lp );
+		std::cout << "Time: " << t.stopMicro()*1e-6 << " s" << std::endl;
 		
 		// print
 		double objval;
 		CHECKED_CPX_CALL(CPXgetobjval, env, lp, &objval );
 		std::cout << "Objval: " << objval << std::endl;
+
 		int n = CPXgetnumcols(env, lp);
 		if (n != 2*N*N-N) { throw std::runtime_error(std::string(__FILE__) + ":" + STRINGIZE(__LINE__) + ": " + "different number of variables"); }
-	  	std::vector<double> varVals;
-		varVals.resize(n);
-  		CHECKED_CPX_CALL( CPXgetx, env, lp, &varVals[0], 0, n - 1 );
-		/// status =      CPXgetx (env, lp, x          , 0, CPXgetnumcols(env, lp)-1);
-  		for ( int i = 0 ; i < n ; ++i ) {
-  	  	// std::cout << "var in position " << i << " : " << varVals[i] << std::endl;
-  	  		/// to read variables names the API function ``CPXgetcolname'' may be used (it is rather tricky, see the API manual if you like...)
-  	  		/// status = CPXgetcolname (env, lp, cur_colname, cur_colnamestore, cur_storespace, &surplus, 0, cur_numcols-1);
-  		}
+
 		CHECKED_CPX_CALL( CPXsolwrite, env, lp, "ex1.sol" );
+
 		// free
 		CPXfreeprob(env, &lp);
 		CPXcloseCPLEX(&env);

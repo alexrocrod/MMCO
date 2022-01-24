@@ -24,41 +24,46 @@ bool TSPSolver::solve ( const TSP& tsp , const TSPSolution& initSol , int tabule
         initValue = bestValue = currValue = evaluate(currSol,tsp);
         TSPMove move;
 
-        while ( ! stop ) {
-            ++iter;                /// TS: iter not only for displaying
+        while (!stop) 
+        {
+            ++iter;            
 
             #if PRINT_ALL_TPSOLVER
                 if ( tsp.n < 20 ) currSol.print();
                 std::cout << " (" << iter << "ac) value " << currValue << "\t(" << evaluate(currSol,tsp) << ")";
             #endif
 
-            double aspiration = bestValue-currValue;                                                            //**// TSAC: aspired IMPROVEMENT (to improve over bestValue)
-            double bestNeighValue = currValue + findBestNeighbor(tsp,currSol,iter,aspiration,move);             //**// TSAC: aspiration
+            double aspiration = bestValue-currValue;                                                            
+            double bestNeighValue = currValue + findBestNeighbor(tsp,currSol,iter,aspiration,move);             
             
-            if ( bestNeighValue >= tsp.infinite ) {       /// TS: stop because all neighbours are tabu
+            if ( bestNeighValue >= tsp.infinite ) {       /// stop because all neighbours are tabu
+               
                 #if PRINT_ALL_TPSOLVER
                     std::cout << "\tmove: NO legal neighbour" << std::endl; 
                 #endif
+
                 stop = true;                                
                 continue;                                  
-            }                                             
+            }   
+
             #if PRINT_ALL_TPSOLVER
                 std::cout << "\tmove: " << move.from << " , " << move.to;
             #endif
             
-            updateTabuList(currSol.sequence[move.from],currSol.sequence[move.to],iter);	/// TS: insert move info into tabu list
+            updateTabuList(currSol.sequence[move.from],currSol.sequence[move.to],iter);	/// insert move info into tabu list
                         
-            currSol = swap(currSol,move);                                                                       /// TS: always the best move
-            currValue = bestNeighValue;                                                                         /// 
-            if ( currValue < bestValue - 0.01 ) {					/// TS: update incumbent (if better -with tolerance- solution found)
-                bestValue = currValue;                                                                            ///
-                bestSol = currSol;    
+            currSol = swap(currSol,move);                                                                       
+            currValue = bestNeighValue;                                                                 
+            if ( currValue < bestValue - 0.01 ) {	/// TS: update incumbent (if better -with tolerance- solution found)
+                bestValue = currValue;                                                                           
+                bestSol = currSol;   
+
                 #if PRINT_ALL_TPSOLVER
                     std::cout << "\t***";
                 #endif
             }           
             
-            if ( iter > maxIter ) {    /// TS: new stopping criteria
+            if (iter > maxIter) { 
                 stop = true;      
             } 
             
@@ -85,16 +90,16 @@ bool TSPSolver::solve ( const TSP& tsp , const TSPSolution& initSol , int tabule
 
     TSPSolution& TSPSolver::swap ( TSPSolution& tspSol , const TSPMove& move ) 
     {
-    TSPSolution tmpSol(tspSol);
-    for ( int i = move.from ; i <= move.to ; ++i ) {
-        tspSol.sequence[i] = tmpSol.sequence[move.to-(i-move.from)];
+        TSPSolution tmpSol(tspSol);
+        for ( int i = move.from ; i <= move.to ; ++i ) {
+            tspSol.sequence[i] = tmpSol.sequence[move.to-(i-move.from)];
+        }
+        return tspSol;
     }
-    return tspSol;
-    }
 
 
 
-double TSPSolver::findBestNeighbor ( const TSP& tsp , const TSPSolution& currSol , int currIter , double aspiration , TSPMove& move )     //**// TSAC: use aspiration
+double TSPSolver::findBestNeighbor ( const TSP& tsp , const TSPSolution& currSol , int currIter , double aspiration , TSPMove& move )    
     /* Determine the NON-TABU *move* yielding the best 2-opt neigbor solution 
     * Aspiration criteria: 'neighCostVariation' better than 'aspiration' (notice that 'aspiration'
     * has been set such that if 'neighCostVariation' is better than 'aspiration' than we have a
@@ -112,19 +117,16 @@ double TSPSolver::findBestNeighbor ( const TSP& tsp , const TSPSolution& currSol
             int j = currSol.sequence[b];
             int l = currSol.sequence[b+1];
             
-            //**// TSAC: to be checked after... if (isTabu(i,j,currIter)) continue;						/// TS: tabu check (just one among many ways of doing it...) 
-            
             double neighCostVariation = - tsp.cost[h][i] - tsp.cost[j][l] + tsp.cost[h][j] + tsp.cost[i][l] ;
             
             if ( isTabu(i,j,currIter) && !(neighCostVariation < aspiration-0.01) ) {
-                continue;             //**// TSAC: check if tabu and not aspiration criteria
+                continue;             // check if tabu and not aspiration criteria
             }
             if ( neighCostVariation < bestCostVariation ) {
                 bestCostVariation = neighCostVariation;
                 move.from = a;
                 move.to = b;
             }
-            // if ( bestCostVariation < 0 ) return bestCostVariation; //*****// First Improvement variant (in this case a better way of determining the order in which neighbor are explored should be implemented)
         }
     }
     return bestCostVariation;
