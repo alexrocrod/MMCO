@@ -14,7 +14,8 @@
 \contentsline {subsection}{\numberline {1.5}Instancing}{8}{}%
 \contentsline {subsubsection}{\numberline {1.5.1}Class 1 - Random}{8}{}%
 \contentsline {subsubsection}{\numberline {1.5.2}Class 2 - Domain Specific Random}{8}{}%
-\contentsline {subsubsection}{\numberline {1.5.3}Class 3 - Handmade instances}{8}{}%
+\contentsline {subsubsection}{\numberline {1.5.3}Class 3 - Handmade instances}{9}{}%
 \contentsline {subsection}{\numberline {1.6}Part 2}{9}{}%
-\contentsline {section}{\numberline {2}Results}{9}{}%
-\contentsline {section}{\numberline {3}Conclusions}{12}{}%
+\contentsline {subsubsection}{\numberline {1.6.1}Nearest Neighbour Heuristic Initial Solution}{9}{}%
+\contentsline {section}{\numberline {2}Results}{10}{}%
+\contentsline {section}{\numberline {3}Conclusions}{13}{}%

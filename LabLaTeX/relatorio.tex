@@ -26,8 +26,8 @@
 	
 	\section*{Introduction}
 		The objective of this exercise is to find the minimum time needed to drill all the holes in a electric panel.
-		For part 1, I used the model described in the exercise text.
-		For part 2, I used the Tabu Search with Aspiration Criteria, made some changes and added a heuristic initial solution procedure.
+		For part 1, I used the model described in the exercise text with the CPLEX API.
+		For part 2, I used the Tabu Search with Aspiration Criteria algorithm with some changes and an heuristic initial solution.
 		
 		\vspace{3cm}
 		
@@ -88,7 +88,7 @@
 				&\sum_{j:(i,j)\in A} y_{ij}									   	&= 1 \qquad \qquad \qquad 	&\forall i \in N \\
 				&\sum_{i:(i,j)\in A} y_{ij}									   	&= 1 \qquad \qquad \qquad 	&\forall j \in N \\
 				&x_{ij}  													   	&\le (|N|-1) y_{ij} \quad 	&\forall (i,j) \in A, j\ne 0 \\
-				&x_{ij}  \in R_+ 												&   						&\forall (i,j) \in A, j\ne 0 \\
+				&x_{ij}  \in \mathbb{Z}_+^0 									&   						&\forall (i,j) \in A, j\ne 0 \\
 				&y_{ij}  \in \{0,1\} 											&  							&\forall (i,j) \in A 
 			\end{align}
 		
@@ -120,7 +120,7 @@
 				&x_{ij} - (|N|-1) y_{ij} &\le &0\\	
 				&x_{ij} + (1-|N|) y_{ij} &\le &0
 			\end{align}
-			Using this equivalent constraint we can set the variable coefficients as $ 1 $ and $ 1-|N| $ for x and y respectively.
+			Using this equivalent constraint we can set the variable coefficients as $ 1 $ and $ 1-|N| $ for $  x $ and $ y $ respectively.
 			The sense will be \texttt{'L'} as less or equal and \texttt{rhs} $ 0 $.
 			
 			From the constraint $ \sum_{i:(i,k)\in A} x_{ik} - \sum_{j:(k,j),j\ne 0} x_{kj} = 1, \ \forall k \in N \backslash 0 $,	we can see that $x_{kk}$ appears twice with opposite signal.
@@ -128,7 +128,7 @@
 			\begin{equation}
 				\sum_{i:(i,k)\in A,i\ne k} x_{ik} - \sum_{j:(k,j),j\ne 0, j \ne k} x_{kj} = 1,  \quad \forall k \in N \backslash 0
 			\end{equation}
-			The number of variables in the original constraint is $2|N|-1 $, so now it is $ 2|N|-3 $.
+			The number of variables in the original constraint is $2|N|-1 $, so the new one has $ 2|N|-3 $  variables.
 			This approach was used to guarantee no errors when using the same variable index with different coefficient.
 			We can set the variables coefficients as $ 1 $ in the first for loop and $ -1 $ in the second.
 			The sense is \texttt{'E'} as equal and the \texttt{rhs} is $ 1 $.
@@ -142,7 +142,7 @@
 			\hspace{-20pt}\texttt{int readDists(const char* filename, std::vector<std::vector<double>>\& cost)}
 					
 				Similar to \texttt{read()} in the laboratory exercises. 
-				Reads a file containing the number of nodes $ n $ in the first line and the cost matrix in the $ n $ following rows.
+				Reads a file containing the number of nodes $ |N| $ in the first line and the cost matrix in the $ |N| $ following rows.
 				Used in both parts of the work but for part 2 it calls the \texttt{setInfinite()} function to set its value as $ 2 \sum_{i,j} C_{ij}  $.
 			
 			\subsubsection{\texttt{readPos()}}
@@ -158,11 +158,11 @@
 					
 				From the positions of the nodes it calculates the distances between each other.
 				Uses 2 for loops and computes each entry of the cost matrix as the Manhattan distance of the two nodes:
-					$$ Dist = |x_i-x_j| + |y_i-y_j| $$
+					$$ C_{ij} = |x_i-x_j| + |y_i-y_j| $$
 				In part 2 this function calls \texttt{setInfinite()} to set its value as $ 2 \sum_{i,j} C_{ij}  $.
 					
 			\subsubsection{\texttt{unsigned long superSeed()}}
-				Used to get a better seed for the pseudo random methods used to get the initial random solution for TSAC and the random holes positions.
+				Used to get a better seed for the pseudo random methods used to get the initial random solution and random hole positions.
 				Is based on the Robert Jenkins' 96-bit Mix Function that uses 3 large integers, results of the functions: \texttt{clock()}, \texttt{std::time(NULL)}, \texttt{getpid()}.
 				
 				It was added because we got identical initial solutions when running the TSAC method time after time, meaning the change in time was not enough to change the seed.
@@ -187,8 +187,8 @@
 				Its usage is \texttt{./main filename.dat savedistsfile.dat [readDists] [Nrandom] [class]}.
 				The first 2 arguments are mandatory. 
 				The first is the file that will be read for information.
-				The second is the file used to save the cost matrix: used to save the 30 instances that we tested with.
-				\texttt{readDists} can be anything, if it is given, and there are no more arguments after, we read the file as the cost matrix instead of reading positions.
+				The second is the file used to save the cost matrix (save the 30 testing instances).
+				If \texttt{readDists} is given, and there are no more arguments after, we read the file as the cost matrix instead of reading positions.
 				\texttt{Nrandom} indicates the program to create a new random instance of size \texttt{Nrandom}.
 				\texttt{class} is the class of instance we want to create, anything different from 1 indicates class 2, default is class 1.
 				
@@ -202,7 +202,7 @@
 							
 			\subsubsection{Part 2}
 				All needed files are compiled by the given Makefile.
-				The program's usage is \texttt{./main filename.dat tabulength maxiter [init] [readPos] [Nrandom] [class]}
+				The program's usage is \texttt{./main filename.dat tabulength maxiter [init] [readPos] [Nrandom] [class]}.
 				The first 3 arguments are mandatory. 
 				The first is the file that will be read for information.
 				The other 2 arguments indicate the length of the tabu list and the maximum number of iterations respectively.
@@ -214,8 +214,8 @@
 				\textbf{Examples:}
 				\begin{itemize}
 					\item New random instance of class 2:\texttt{./main x 6 20 1 x 10 2}
-					\item Read from saved cost matrix:\texttt{./main SavedDists/n10\_class1/0.dat 6 10}
-					\item Read from saved positions:\texttt{./main pos10/dists10\_1.dat 6 10 2 1}
+					\item Read from saved cost matrix:\texttt{./main SavedDists/n10\_class1/0.dat 6 20}
+					\item Read from saved positions:\texttt{./main pos10/dists10\_1.dat 6 20 2 1}
 				\end{itemize}
 				Where \texttt{x} are disregarded, so it can be any letter, number or word.
 					
@@ -226,16 +226,17 @@
 			\subsubsection{Class 1 - Random}
 				Randomly selected $ |N| $ positions of the $ |N| \times |N| $ map and compute the cost matrix.
 				
-				\textbf{Implementation}:
 				\begin{enumerate}
-					\item Compute all possible positions ($ 3\times3 $ example)
-					
+					\item Compute all possible positions ($ 3\times3 $ example) \\
+					\begin{table}[H]
+						\centering
 					\begin{tabular}{|c|c|c|}
 						\hline
-						(0,0) & (0,1) & (0,2)  \\ \hline
-						(1,0) & (1,1) & (1,2) \\ \hline
-						(2,0) & (2,1) & (2,2) \\ \hline
+						(0,0) & (1,0) & (2,0)  \\ \hline
+						(0,1) & (1,1) & (2,1) \\ \hline
+						(0,2) & (1,2) & (2,2) \\ \hline
 					\end{tabular}
+				\end{table}
 					\item Randomly shuffle them;
 					\item Select the first $ |N| $ positions from the set.
 				\end{enumerate}
@@ -243,37 +244,60 @@
 			
 			\subsubsection{Class 2 - Domain Specific Random}
 				Same as before but for a $ (|N|-2) \times (|N|-2)  $ map.
-				Each index is limited to \{$ 1 $, $ 2 $, $\ldots$ , $ |N|-2 $ \} instead of \{$ 0 $, $ 2 $, $\ldots$, $ |N|-1 $\}.
+				Each index is in \{$ 1 $, $ 2 $, $\ldots$, $ |N|-2 $\} instead of \{$ 0 $, $ 2 $, $\ldots$, $ |N|-1 $\}.
 				This because there are basically no electric panels with holes near the border.
+				For $ |N| = 4 $ we get:
+
+			\begin{table}[H]
+				\centering
+				\begin{tabular}{|c|c|c|c|}
+					\hline
+					X &   X   &   X   & X  \\ \hline
+					X & (1,1) & (2,1) & X \\ \hline
+					X & (1,2) & (2,2) & X \\ \hline
+					X &   X   &   X   & X  \\ \hline
+				\end{tabular}
+			\end{table}
+				
+	\pagebreak
 				
 			\subsubsection{Class 3 - Handmade instances}
 				For $ |N| = 10 $, I created the following 6 instances from what seemed more realistic.
 				The first is an interpretation of the first image of figure \ref{fig:fig1}.
 				I then created the positions files (folder \texttt{pos10}).
 				
-				\begin{figure}[H]
-					\centering
-					\includegraphics[width=.7\linewidth]{class3.png}  
-					\caption{Instances of class 3}
-					\label{fig:figsClass3}
-				\end{figure}
-			
-					
-			
+					\begin{figure}[H]
+						\centering
+						\includegraphics[width=.7\linewidth]{class3.png}  
+						\caption{Instances of Class 3}
+						\label{fig:figsClass3}
+					\end{figure}
+				
 		\subsection{Part 2}
 
-			I started from the TSAC implementation from the Laboratory and added all the additional procedures to: randomly select holes positions, compute the costs matrix from these positions, read from positions files, better seed the random methods with a mix() function.
+			I started from the TSAC implementation from the Laboratory and added all the additional procedures to: randomly select holes positions, compute the costs matrix from these positions, read from positions files, better seed the random methods with a mix function.
 			
-			As an additional study object, I made an heuristic initial solution computation based on the Nearest Neighbour.
-			This can be done by iterating over the cost matrix and find the minimum value in each row, excluding the already visited nodes.
-			Add this node to the cycle and continue on its row of the cost matrix.
-			Hereby constructing a cycle that will be the initial solution.
+			\subsubsection{Nearest Neighbour Heuristic Initial Solution}
+				As an additional study object, I made an heuristic initial solution computation based on the Nearest Neighbour.
+				This can be done by iterating over the cost matrix and find the minimum value in each row, excluding the already visited nodes.
+				Add this node to the cycle and continue on its row of the cost matrix.
+				Hereby constructing a cycle that will be the initial solution.
+				
+				\texttt{bool initHeu1(const TSP\& tsp, TSPSolution\& sol)}
+				\begin{enumerate}
+					\item Clean sequence to all $ -1 $ except the first and last entries ($ 0 $);
+					\item Sort the cost matrix row and get the minimum entries indices (except $C_{ii} = 0$);
+					\item Iterate over these entries;
+					\item If it is already in the visited list, go to next entry;
+					\item If not, add it to the sequence and visited list.
+					\item If sequence not full, continue the while loop (2.) with searching the row of the last added node. 
+				\end{enumerate}
+			
 			
 			After some tests, I noticed that, in some cases, the method would return a worst solution that the initial.
 			To solve this, I added a verification: if the best value at the end of the method is equal to the initial value, use the initial solution as the best one.
 			
-						
-	
+					
 	\section{Results}
 		I run 5 times the 6 handmade instances in class 3. 
 		
@@ -282,17 +306,17 @@
 		Each instance was run 5 times to get the average computational time.
 		
 		The time to drill a hole is constant so we can disregard it.
-		The total cost would be $ cost_{real}  = cost_{exp} + cN, c\in \mathbb{R}_+$.
+		The total cost would be $ cost_{real}  = cost_{exp} + c|N|, c\in \mathbb{R}_+$.
 		
 		
 		The following table resumes the results for class 3:
 		\begin{table}[H]
 			\centering
 			\begin{tabular}{c|c|c|c}
-				\textbf{Comparison}	& \textbf{exact} 	& \textbf{Random Initial}  		& \textbf{Heuristic Initial}  \\ \hline
-				Time				& $ 0.1165 s $ 		& $ 4.05 \times 10^{-5} s $ 	& $ 1.06 \times 10^{-5} s $ \\ \hline
-				Initial Value		& N/A		 		& $ 47.4 $ 						& $ 24.0 $ 					\\ \hline 
-				Final Value			& $ 22.33 $	 		& $ 22.5 $ 						& $ 22.33 $ 				\\  
+				\textbf{}			& \textbf{CPLEX} 	& \textbf{TSAC Random Initial}  & \textbf{TSAC Heuristic Initial}  \\ \hline
+				Time (s)			& $ 0.1165 $ 		& $ 4.05 \times 10^{-5} $ 		& $ 1.06 \times 10^{-5} $ \\ \hline
+				Initial Value		& N/A		 		& $ 47.40 $ 					& $ 24.00 $ 					\\ \hline 
+				Final Value			& $ 22.33 $	 		& $ 22.50 $ 					& $ 22.33 $ 				\\  
 			\end{tabular}
 			\caption{Comparison for class 3}
 			\label{table:times3}
@@ -310,19 +334,19 @@
 		\begin{table}[H]
 			\centering
 			\begin{tabular}{c|c|c}
-				$\mathbf{|N|}$  & \textbf{Class 1} 	& \textbf{Class2}  \\ \hline
-				$ 10  $			& $ 0.1199 s $ 		& $ 0.1285 s $ 		\\ \hline
-				$ 20  $			& $ 0.430 s $ 		& $ 0.461 s $		\\ \hline
-				$ 30  $			& $ 1.575 s $	 	& $ 1.397 s $ 		\\ \hline
-				$ 40  $			& $ 6.603 s $ 		& $ 6.570 s $ 		\\ \hline
-				$ 50  $			& $ 14.04 s $ 		& $ 14.55 s $ 		\\ \hline
-				$ 60 $			& $ 28.80 s $ 		& $ 28.14 s $ 		\\ \hline
-				$ 70 $			& $ 46.66s $	 	& $ 53.88 s $ 		\\ \hline
-				$ 80 $			& $ 90.96 s $ 		& $ 86.53 s $ 		\\ \hline
-				$ 90 $			& $ 215.1 s $	 	& $ 207.97 s $ 		\\ \hline
-				$ 100 $			& $ 458.5 s $ 		& $ 312.64 s $ 		\\ 
+				$\mathbf{|N|}$  & \textbf{Class 1} 	& \textbf{Class 2}  \\ \hline
+				$ 10  $			& $ 0.1199 $ 		& $ 0.1285 $ 		\\ \hline
+				$ 20  $			& $ 0.4300  $ 		& $ 0.4610 $		\\ \hline
+				$ 30  $			& $ 1.575  $	 	& $ 1.397 $ 		\\ \hline
+				$ 40  $			& $ 6.603  $ 		& $ 6.570 $ 		\\ \hline
+				$ 50  $			& $ 14.04  $ 		& $ 14.55 $ 		\\ \hline
+				$ 60 $			& $ 28.80  $ 		& $ 28.14 $ 		\\ \hline
+				$ 70 $			& $ 46.66 $	 		& $ 53.88 $ 		\\ \hline
+				$ 80 $			& $ 90.96 $ 		& $ 86.53 $ 		\\ \hline
+				$ 90 $			& $ 215.10 $	 	& $ 207.97 s $ 		\\ \hline
+				$ 100 $			& $ 458.50 $ 		& $ 312.64 s $ 		\\ 
 			\end{tabular}
-			\caption{Average Time for Exact}
+			\caption{Average Time for Part 1 (in seconds)}
 			\label{table:times}
 		\end{table}
 		The fastest class to converge oscillates between each one when increasing $ |N| $, so we cannot conclude anything about that.		
@@ -331,13 +355,13 @@
 		With 1 minute we go up to $ 70 $ nodes and the time increases somewhat exponentially afterwards.
 		
 		The largest standard deviations found was $ 105\% $ for $ |N| = 90$, $ 90\% $ for $ |N| = 100$ and $ 50\% $ for $ |N| = 30$.
-		This large deviations can be due to other programs running on the server I used since these computations took so much time.
+		These large deviations can be due to other programs running on the server I used since these computations took so much time.
 		
 		
 	\begin{table}[H]
 		\centering
 		\begin{tabular}{c|c|c|c|c}
-			$ \mathbf{|N|}$ & \textbf{Class 1 RI}  & \textbf{Class1 HI}& \textbf{Class 2 RI} & \textbf{Class 2 HI}  \\ \hline
+			$\mathbf{|N|}$ 	& \textbf{Class 1 RI}  & \textbf{Class 1 HI}& \textbf{Class 2 RI} & \textbf{Class 2 HI}  \\ \hline
 			$ 10  $			& $1.54\times10^{-5}$ & $9.35\times10^{-6}$& $1.97\times10^{-5}$ & $1.04\times10^{-5}$ \\ \hline
 			$ 20  $			& $9.11\times10^{-5}$ & $1.40\times10^{-4}$& $1.00\times10^{-4}$ & $1.21\times10^{-4}$ \\ \hline
 			$ 30  $			& $2.33\times10^{-4}$ & $2.54\times10^{-4}$& $2.31\times10^{-4}$ & $3.47\times10^{-4}$ \\ \hline
@@ -349,33 +373,33 @@
 			$ 90 $			& $4.98\times10^{-3}$ & $5.93\times10^{-3}$& $3.87\times10^{-3}$ & $5.73\times10^{-3}$\\ \hline
 			$ 100 $			& $5.83\times10^{-3}$ & $8.20\times10^{-3}$& $5.14\times10^{-3}$ & $8.66\times10^{-3}$\\
 		\end{tabular}
-		\caption{Average Time for TSAC}
+		\caption{Average Time for Part 2 (in seconds)}
 		\label{table:times2}
 	\end{table}
 	Note: RI - Random Initial Solution, HI - Heuristic Initial Solution.
 	
-	There were no significant differences between the classes and initialization methods used.
+	There were no significant differences between classes and initialization methods used.
 	All this computational times are below $ 1 $ second, so very easily solvable.
-	As an extra test, for $ |N| = 1000 $, obtaining times of around $ 5 $ seconds.
+	As an extra test, for $ |N| = 1000 $, we can expect times of around $ 5 $ seconds.
 	
 	The largest standard deviations of computational time found were around $40\%$, being usually of $25\%$.
 	
-	The following tables show the final solution values obtained.
+	The following tables show the initial and final solution values obtained.
 
 	\begin{table}[H]
 		\centering
 		\begin{tabular}{c|c|c|c|c|c}
-			$ \mathbf{|N|}$	& \textbf{CPLEX}& \textbf{Initial RI}   & \textbf{Final RI}	& \textbf{Initial HI} 	& \textbf{Final RI} \\ \hline
+			$\mathbf{|N|}$	& \textbf{CPLEX}& \textbf{Initial RI}   & \textbf{Final RI}	& \textbf{Initial HI} 	& \textbf{Final RI} \\ \hline
 			$ 10  $			& $ 34.067 $ 	& $ 66.067 $ 			& $ 34.067 $  		& $ 38.067 $ 			& $ 34.067 $		\\ \hline
-			$ 20  $			& $ 94.33 $ 	& $ 258.2 $ 			& $ 95.067 $  		& $ 110.8 $ 			& $ 94.933 $		\\ \hline
-			$ 30  $			& $ 167.067 $ 	& $ 606.53 $ 			& $ 170.2 $  		& $ 202.6 $ 			& $ 169.6 $ 		\\ \hline
-			$ 40  $			& $ 257.4 $ 	& $ 1076.87 $ 			& $ 266.3 $  		& $ 310.8 $ 			& $ 263.93 $ 		\\ \hline
-			$ 50  $			& $ 356.6 $ 	& $ 1630.47 $ 			& $ 366.8 $  		& $ 428.067 $ 			& $ 366.467 $ 		\\ \hline
-			$ 60  $			& $ 461.93 $ 	& $ 2418.6 $ 			& $ 482.73 $  		& $ 570.4 $ 			& $ 479.267 $ 		\\ \hline
-			$ 70 $			& $ 578.93 $ 	& $ 3264.13 $ 			& $ 607.93 $ 	 	& $ 732.73 $	 		& $ 599.6 $ 		\\ \hline
-			$ 80 $			& $ 703.4 $ 	& $ 4343.2 $ 			& $ 739.6 $  		& $ 869.6 $ 			& $ 724.2 $ 		\\ \hline
-			$ 90 $			& $ 833.6 $ 	& $ 5476.8 $ 			& $ 888.2 $  		& $ 1052.2 $ 			& $ 869 $ 			\\ \hline
-			$ 100 $			& $ 976.6 $ 	& $ 6670.2 $ 			& $ 1042 $  		& $ 1228.2 $ 			& $ 1013.4 $ 		\\
+			$ 20  $			& $ 94.333 $ 	& $ 258.20 $ 			& $ 95.067 $  		& $ 110.80 $ 			& $ 94.933 $		\\ \hline
+			$ 30  $			& $ 167.07 $ 	& $ 606.53 $ 			& $ 170.20 $  		& $ 202.60 $ 			& $ 169.60 $ 		\\ \hline
+			$ 40  $			& $ 257.40 $ 	& $ 1076.9 $ 			& $ 266.33$  		& $ 310.80 $ 			& $ 263.93 $ 		\\ \hline
+			$ 50  $			& $ 356.60 $ 	& $ 1630.5 $ 			& $ 366.80$  		& $ 428.07 $ 			& $ 366.47 $ 		\\ \hline
+			$ 60  $			& $ 461.93 $ 	& $ 2418.6 $ 			& $ 482.73 $  		& $ 570.40 $ 			& $ 479.27 $ 		\\ \hline
+			$ 70 $			& $ 578.93 $ 	& $ 3264.1 $ 			& $ 607.93 $ 	 	& $ 732.73 $	 		& $ 599.60 $ 		\\ \hline
+			$ 80 $			& $ 703.40 $ 	& $ 4343.2 $ 			& $ 739.60$  		& $ 869.60 $ 			& $ 724.20 $ 		\\ \hline
+			$ 90 $			& $ 833.60 $ 	& $ 5476.8 $ 			& $ 888.20$  		& $ 1052.2 $ 			& $ 869.00 $ 			\\ \hline
+			$ 100 $			& $ 976.60 $ 	& $ 6670.2 $ 			& $ 1042.0 $  		& $ 1228.2 $ 			& $ 1013.4 $ 		\\
 		\end{tabular}
 		\caption{Initial and Final Solutions for Class 1}
 		\label{table:sols}
@@ -390,16 +414,16 @@
 		\centering
 		\begin{tabular}{c|c|c|c|c|c}
 			$ \mathbf{|N|}$	& \textbf{CPLEX}& \textbf{Initial RI}   & \textbf{Final RI}	& \textbf{Initial HI} 	& \textbf{Final RI} \\ \hline
-			$ 10  $			& $ 28.533 $ 	& $ 52.333 $ 			& $ 28.533 $  		& $ 32 $ 				& $ 28.533 $		\\ \hline
-			$ 20  $			& $ 84.467 $ 	& $ 233.13 $ 			& $ 84.733 $  		& $ 98 $ 				& $ 84.6$			\\ \hline
-			$ 30  $			& $ 160.933 $ 	& $ 562.73 $ 			& $ 164.4 $  		& $ 197.53 $ 			& $ 163.067 $ 		\\ \hline
-			$ 40  $			& $ 243.4 $ 	& $ 1040.4 $ 			& $ 252.53 $  		& $ 289.33 $ 			& $ 248.8 $ 		\\ \hline
-			$ 50  $			& $ 339.73 $ 	& $ 1583.53 $ 			& $ 350.2 $		  	& $ 412.4 $ 			& $ 346.53 $ 		\\ \hline
-			$ 60  $			& $ 445 $ 		& $ 2356.67 $ 			& $ 466.2 $  		& $ 527.93 $ 			& $ 458.267 $	 	\\ \hline
-			$ 70 $			& $ 560.13 $ 	& $ 3203.8 $ 			& $ 593.6 $  		& $ 898.867 $ 			& $ 582.4 $ 		\\ \hline
-			$ 80 $			& $ 687.6 $ 	& $ 4163.4 $ 			& $ 730 $  			& $ 859.8 $ 			& $ 711.2 $ 		\\ \hline
-			$ 90 $			& $ 815.4 $ 	& $ 5358.4 $ 			& $ 845.4 $  		& $ 1016 $ 				& $ 845 $ 			\\ \hline
-			$ 100 $			& $ 951.8 $ 	& $ 6665 $ 				& $ 1022 $  		& $ 1172.2 $ 			& $ 988$ 			\\
+			$ 10  $			& $ 28.533 $ 	& $ 52.333 $ 			& $ 28.533 $  		& $ 32.000 $ 			& $ 28.533 $		\\ \hline
+			$ 20  $			& $ 84.467 $ 	& $ 233.13 $ 			& $ 84.733 $  		& $ 98.000 $ 			& $ 84.600$	\\ \hline
+			$ 30  $			& $ 160.93 $ 	& $ 562.73 $ 			& $ 164.40 $  		& $ 197.53 $ 			& $ 163.07 $ 		\\ \hline
+			$ 40  $			& $ 243.40 $ 	& $ 1040.4 $ 			& $ 252.53 $  		& $ 289.33 $ 			& $ 248.80 $ 		\\ \hline
+			$ 50  $			& $ 339.73 $ 	& $ 1583.5 $ 			& $ 350.20 $		& $ 412.40 $ 			& $ 346.53 $ 		\\ \hline
+			$ 60  $			& $ 445.00 $ 	& $ 2356.7 $ 			& $ 466.20$  		& $ 527.93 $ 			& $ 458.27 $	 	\\ \hline
+			$ 70 $			& $ 560.13 $ 	& $ 3203.8 $ 			& $ 593.60 $  		& $ 685.53 $ 			& $ 582.40 $ 		\\ \hline
+			$ 80 $			& $ 687.60 $ 	& $ 4163.4 $ 			& $ 730.00 $  		& $ 859.80 $ 			& $ 711.20 $ 		\\ \hline
+			$ 90 $			& $ 815.40 $ 	& $ 5358.4 $ 			& $ 845.40 $  		& $ 1016.0 $ 			& $ 845.00 $ 		\\ \hline
+			$ 100 $			& $ 951.80 $ 	& $ 6665.0 $ 			& $ 1022.0 $  		& $ 1172.2 $ 			& $ 988.00 $ 		\\
 		\end{tabular}
 		\caption{Initial and Final Solutions for Class 2}
 		\label{table:sols2}
