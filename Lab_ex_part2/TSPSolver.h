@@ -72,7 +72,7 @@ public:
         return true;
     }
     // heuristic initial solution -> choose min from each row
-    bool initHeu1 (const TSP& tsp ,TSPSolution& sol ) 
+    bool initHeu1(const TSP& tsp, TSPSolution& sol) 
     {
         // clean sequence
         for (uint i = 1 ; i < sol.sequence.size()-1 ; ++i ) sol.sequence[i] = -1;
@@ -82,8 +82,8 @@ public:
         visited.push_back(0);
         int prev = 0;
 
-        while (i+1 < tsp.n) {
-
+        while (i < tsp.n - 1) 
+        {
             // sort as indices
             std::vector<int> V(tsp.n);
             std::iota(V.begin(),V.end(),0); //Initializing
