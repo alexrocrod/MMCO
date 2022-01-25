@@ -113,7 +113,7 @@ void setupLP(CEnv env, Prob lp, const int N, const std::vector<std::vector<doubl
 			char sense = 'L';
 			int matbeg = 0;
 			double rhs = 0;
-			CHECKED_CPX_CALL( CPXaddrows, env, lp, 0     , 1     , idx.size(), &rhs, &sense, &matbeg, &idx[0], &coef[0], NULL      , NULL      );	
+			CHECKED_CPX_CALL(CPXaddrows, env, lp, 0, 1, idx.size(), &rhs, &sense, &matbeg, &idx[0], &coef[0], NULL, NULL);	
 		}
 	}
 
@@ -121,14 +121,13 @@ void setupLP(CEnv env, Prob lp, const int N, const std::vector<std::vector<doubl
 	for (int k = 1; k < N; k++)
 	{
 		std::vector<int> idx(2*N-3);
-		std::vector<double> coef(2*N-3, 0);
+		std::vector<double> coef(2*N-3, 1.0);
 		char sense = 'E';
 		int a = 0;
 		for (int i = 0; i < N; i++)
 		{
 			if (i == k) continue; // exclude x_kk
 			idx[a] = i*(N-1) + k-1; // corresponds to variable x_ik
-			coef[a] = 1; 
 			a++;
 		}
 		for (int j = 1; j < N; j++)
@@ -162,7 +161,7 @@ void computeCost(const int n, const std::vector<std::vector<double>> & pos, std:
 	return;
 }
 
-int read(const char* filename, std::vector<std::vector<double>> & pos, std::vector< std::vector<double> > & cost)
+int readPos(const char* filename, std::vector<std::vector<double>>& pos, std::vector<std::vector<double>>& cost)
 {
 	int n = 0;
 	std::ifstream in(filename);
@@ -210,32 +209,30 @@ unsigned long superSeed()
 }
 
 // random cost matrix
-void randomCost(const int n, std::vector<std::vector<double>> & pos, std::vector< std::vector<double> > & cost, const int classe)
+void randomCost(const int n, std::vector<std::vector<double>>& pos, std::vector<std::vector<double>>& cost, const int classe)
 {
 	#if PRINT_ALL_TPSOLVER
             std::cout << "(Random class " << classe << " ) number of nodes n = " << n << std::endl;
     #endif
 
-	std::vector<int> v1(n) ; // vector with N ints.
-	std::iota (std::begin(v1), std::end(v1), 0); // Fill with 0, 1, ..., N.
 	std::vector<std::vector<double>> allPos;
 	
 	// Random but from 1 to N-2
 	allPos.resize((n-2)*(n-2));
-	int msize = n - 1;
+	int max = n - 1;
 	int min = 1;	
 
 	if (classe == 1) { // Random from 0 to N-1
 		allPos.resize(n*n);
-		msize = n;
+		max = n;
 		min = 0;
 	}
 
     // All possible positions
 	int a = 0;
-    for (int i = min; i < msize; i++) 
+    for (int i = min; i < max; i++) 
 	{
-        for (int j = min; j < msize; j++) 
+        for (int j = min; j < max; j++) 
 		{
             allPos[a].resize(2);
 			allPos[a][0] = i;
@@ -246,7 +243,7 @@ void randomCost(const int n, std::vector<std::vector<double>> & pos, std::vector
     }
 
 	#if PRINT_ALL_TPSOLVER
-		for (int i = 0; i < n*n; i++) {
+		for (int i = 0; i < allPos.size(); i++) {
 			std::cout << "(" << allPos[i][0] << "," << allPos[i][1] << ")\n"; 
 		}
 		std::cout << "All pairs done\n";
@@ -258,11 +255,11 @@ void randomCost(const int n, std::vector<std::vector<double>> & pos, std::vector
 	pos.resize(n);
 	for (int i = 0; i < n; i++) {
 		#if PRINT_ALL_TPSOLVER
-                std::cout << "(" << allPos[i][0] << "," << allPos[i][1] << ")\n";
-            #endif
+            std::cout << "(" << allPos[i][0] << "," << allPos[i][1] << ")\n";
+        #endif
 		pos[i].resize(2);
 		pos[i][0] = allPos[i][0];
-		pos[i][1] = allPos[i][1]; // save the firts N postions from the N*N pairs
+		pos[i][1] = allPos[i][1]; // save the firts N postions from all the pairs
     }
 
 	// compute costs
@@ -340,7 +337,7 @@ int main (int argc, char const *argv[])
 			N = readDists(argv[1], cost);
 		}		
 		else {
-			N = read(argv[1],pos,cost);
+			N = readPos(argv[1],pos,cost);
 			saveDists(argv[2], cost, N);
 		}
 

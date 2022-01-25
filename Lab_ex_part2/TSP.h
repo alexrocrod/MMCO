@@ -25,7 +25,7 @@ public:
     std::vector< std::vector<double> > cost;
     double infinite; // infinite value (an upper bound on the value of any feasible solution)
 
-    void read(const char* filename) // read cost matrix from file
+    void readDists(const char* filename) // read cost matrix from file
     {
         std::ifstream in(filename);
 
@@ -90,7 +90,7 @@ public:
         return;
     }
 
-    void computeCost(const std::vector<std::vector<double>> & pos) // compute costs from positions
+    void computeCost(const std::vector<std::vector<double>>& pos) // compute costs from positions
     {
         cost.resize(n);
         for (int i = 0; i < n; i++) {
@@ -125,29 +125,29 @@ public:
     void randomCost(const int N, const int classe) // random positions generations
     {
         n = N;
+
         #if PRINT_ALL_TPSOLVER
             std::cout << "(Random class " << classe << " ) number of nodes n = " << n << std::endl;
         #endif
-        std::vector<int> v1(n) ; // vector with N ints.
-        std::iota (std::begin(v1), std::end(v1), 0); // Fill with 0, 1, ..., N.
+
         std::vector<std::vector<double>> allPos;
         std::vector<std::vector<double>> pos;
         
         // Random but from 1 to N-2
         allPos.resize((n-2)*(n-2));
-        int msize = n - 1;
+        int max = n - 1;
         int min = 1;	
 
         if (classe == 1) { // Random from 0 to N-1
             allPos.resize(n*n);
-            msize = n;
+            max = n;
             min = 0;
         }
 
         // Nested loop for all possible pairs
         int a = 0;
-        for (int i = min; i < msize; i++) {
-            for (int j = min; j < msize; j++){
+        for (int i = min; i < max; i++) {
+            for (int j = min; j < max; j++){
                 allPos[a].resize(2);
                 allPos[a][0] = i;
                 allPos[a][1] = j;
@@ -156,7 +156,7 @@ public:
         }
 
         #if PRINT_ALL_TPSOLVER
-            for (int i = 0; i < n*n; i++) {
+            for (int i = 0; i < allPos.size(); i++) {
                 std::cout << "(" << allPos[i][0] << "," << allPos[i][1] << ")\n"; 
             }
             std::cout << "All pairs done\n";
@@ -172,7 +172,7 @@ public:
             #endif
             pos[i].resize(2);
             pos[i][0] = allPos[i][0];
-            pos[i][1] = allPos[i][1]; // save postions as the first N from the N*N pairs
+            pos[i][1] = allPos[i][1]; // save postions as the first N from all the pairs
         }
 
         // compute costs

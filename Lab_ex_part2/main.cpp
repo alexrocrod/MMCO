@@ -35,7 +35,7 @@ int main (int argc, char const *argv[])
             if (argc == 8 && N > 3) classe = atoi(argv[7]); // class 2 only possible for 4x4 maps or larger
             tspInstance.randomCost(N, classe);
         }
-        else tspInstance.read(argv[1]);
+        else tspInstance.readDists(argv[1]);
 
         TSPSolution aSolution(tspInstance);
 
